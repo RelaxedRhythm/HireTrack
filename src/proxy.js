@@ -22,10 +22,10 @@ export default auth((req)=> {
   }
 
   if (isLoggedIn && authFile) {
-    // return NextResponse.redirect(new URL("/dashboard", req.url));
+    return NextResponse.redirect(new URL("/dashboard", req.url));
   }
   if (!isLoggedIn && !authFile) {
-    // return NextResponse.redirect(new URL("/login", req.url));
+    return NextResponse.redirect(new URL("/login", req.url));
   }
 
   return NextResponse.next({
@@ -36,5 +36,5 @@ export default auth((req)=> {
 })
 
 export const config = {
-  matcher: ["/dashboard", "/register", "/login","/candidates/:path*","/jobs/:path*","/api"],
+  matcher: ["/dashboard/:path*", "/register", "/login","/candidates/:path*","/jobs/:path*","/api"],
 };

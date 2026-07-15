@@ -1,3 +1,14 @@
-export default function Login() {
-    return <h1>Login</h1>;
+import { LoginForm } from "@/app/components/auth/login-form";
+import {auth} from "@/auth"
+import {redirect} from "next/navigation";
+
+
+export default async function LoginPage() {
+    const session=await auth();
+    if(session) redirect("/dashboard");
+  return (
+    <main className="flex min-h-screen items-center justify-center">
+      <LoginForm />
+    </main>
+  );
 }

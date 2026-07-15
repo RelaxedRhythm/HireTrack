@@ -37,3 +37,25 @@ export async function signup(formData: FormData) {
 
   redirect("/login");
 }
+
+import { signIn, signOut } from "@/auth";
+
+export async function login(formData: FormData) {
+  try {
+    await signIn("credentials", {
+      email: formData.get("email"),
+      password: formData.get("password"),
+      redirectTo: "/dashboard",
+    });
+  } catch {
+    return {
+      error: "Invalid email or password",
+    };
+  }
+}
+
+export async function logout() {
+  await signOut({
+    redirectTo: "/login",
+  });
+}

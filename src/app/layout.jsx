@@ -2,7 +2,7 @@
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "./components/themeProvider";
-import { Navbar } from "./components/navbar";
+import  Navbar  from "./components/navbar";
 import { Sidebar } from "./components/sidebar";
 
 // const inter = Inter({
