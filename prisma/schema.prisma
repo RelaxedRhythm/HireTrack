@@ -5,16 +5,24 @@
 
 generator client {
   provider = "prisma-client-js"
-  output   = "../src/generated/prisma"
 }
 
 datasource db {
   provider = "postgresql"
 }
 
+enum Role {
+  ADMIN
+  RECRUITER
+}
 
 model User {
-  id    String @id @default(cuid())
-  email String @unique
-  name  String?
+  id          String    @id @default(cuid())
+  email       String    @unique
+  name        String?
+  password    String
+  role        Role      @default(RECRUITER)
+
+  created_at  DateTime  @default(now())
+  updated_at  DateTime  @updatedAt
 }

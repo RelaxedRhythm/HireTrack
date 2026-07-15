@@ -36,5 +36,5 @@ export default auth((req)=> {
 })
 
 export const config = {
-//   matcher: ["/dashboard", "/signup", "/login", "/desk","/profile","/api"],
+  matcher: ["/dashboard", "/register", "/login","/candidates/:path*","/jobs/:path*","/api"],
 };
