@@ -1,5 +1,16 @@
 import {Job, JobStatus, JobType ,Prisma } from "@prisma/client";
 
+export interface Job {
+  id: string;
+  title: string;
+  company: string;
+  location: string;
+  type: JobType;
+  status: JobStatus;
+  description?: string | null;
+  createdAt?: string;
+}
+
 export interface JobFilters {
   search?: string;
   status?: JobStatus;
