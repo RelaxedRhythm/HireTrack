@@ -1,98 +1,61 @@
 "use client";
 
-import { useTransition } from "react";
-import Link from "next/link";
+import { useState } from "react";
 import { signup } from "@/actions/auth";
 
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-
 export function SignupForm() {
-  const [isPending, startTransition] = useTransition();
+  const [loading, setLoading] = useState(false);
+
+  async function handleSubmit(formData: FormData) {
+    setLoading(true);
+
+    await signup(formData);
+
+    setLoading(false);
+  }
 
   return (
-    <Card className="w-full max-w-md shadow-lg">
-      <CardHeader>
-        <CardTitle>Create your account</CardTitle>
-        <CardDescription>
-          Start managing your hiring pipeline.
-        </CardDescription>
-      </CardHeader>
+    <form
+      action={handleSubmit}
+      className="w-full max-w-md rounded-lg border p-8 space-y-4"
+    >
+      <h1 className="text-3xl font-bold text-center">
+        Create Account
+      </h1>
 
-      <CardContent>
-        <form
-          action={(formData) =>
-            startTransition(async () => {
-              await signup(formData);
-            })
-          }
-          className="space-y-5"
-        >
-          <div className="space-y-2">
-            <Label htmlFor="name">Full Name</Label>
-            <Input
-              id="name"
-              name="name"
-              placeholder="John Doe"
-              required
-            />
-          </div>
+      <input
+        name="name"
+        placeholder="Full Name"
+        className="w-full rounded border p-3"
+      />
 
-          <div className="space-y-2">
-            <Label htmlFor="email">Email</Label>
-            <Input
-              id="email"
-              name="email"
-              type="email"
-              placeholder="john@example.com"
-              required
-            />
-          </div>
+      <input
+        name="email"
+        type="email"
+        placeholder="Email"
+        className="w-full rounded border p-3"
+      />
 
-          <div className="space-y-2">
-            <Label htmlFor="password">Password</Label>
-            <Input
-              id="password"
-              name="password"
-              type="password"
-              required
-            />
-          </div>
+      <input
+        name="password"
+        type="password"
+        placeholder="Password"
+        className="w-full rounded border p-3"
+      />
 
-          <div className="space-y-2">
-            <Label htmlFor="confirmPassword">
-              Confirm Password
-            </Label>
+      <input
+        name="confirmPassword"
+        type="password"
+        placeholder="Confirm Password"
+        className="w-full rounded border p-3"
+      />
 
-            <Input
-              id="confirmPassword"
-              name="confirmPassword"
-              type="password"
-              required
-            />
-          </div>
-
-          <Button
-            type="submit"
-            className="w-full"
-            disabled={isPending}
-          >
-            {isPending ? "Creating Account..." : "Create Account"}
-          </Button>
-
-          <p className="text-center text-sm text-muted-foreground">
-            Already have an account?{" "}
-            <Link
-              href="/login"
-              className="font-medium text-primary hover:underline"
-            >
-              Login
-            </Link>
-          </p>
-        </form>
-      </CardContent>
-    </Card>
+      <button
+        disabled={loading}
+        className="w-full rounded bg-black py-3 text-white"
+      >
+        {loading ? "Creating..." : "Sign Up"}
+      </button>
+    </form>
   );
 }

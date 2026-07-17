@@ -2,7 +2,7 @@
 import "dotenv/config"
 import { prisma } from "@/lib/prisma";
 import bcrypt from "bcryptjs";
-import { signupSchema } from "@/lib/validation";
+import { signupSchema } from "@/lib/validations/users";
 import { redirect } from "next/navigation";
 
 export async function signup(formData: FormData) {

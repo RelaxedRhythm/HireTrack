@@ -43,8 +43,6 @@ export default function RootLayout({ children }) {
 
             {/* Main Content */}
             <div className="flex flex-1 flex-col">
-              {/* Navbar */}
-              <Navbar />
               <main className="flex-1 p-6">{children}</main>
             </div>
           </div>

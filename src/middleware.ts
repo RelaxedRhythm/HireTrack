@@ -73,7 +73,5 @@ export const config = {
     "/jobs/:path*",
     "/candidates/:path*",
     "/settings/:path*",
-    "/login",
-    "/register",
   ],
 };
