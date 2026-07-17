@@ -1,17 +1,25 @@
 "use server";
-
+import "dotenv/config"
 import { prisma } from "@/lib/prisma";
 import bcrypt from "bcryptjs";
 import { signupSchema } from "@/lib/validation";
 import { redirect } from "next/navigation";
 
 export async function signup(formData: FormData) {
-  const data = signupSchema.parse({
+  const result = signupSchema.safeParse({
     name: formData.get("name"),
     email: formData.get("email"),
     password: formData.get("password"),
     confirmPassword: formData.get("confirmPassword"),
   });
+
+  if (!result.success) {
+    return {
+      error: result.error.flatten().fieldErrors,
+    };
+  }
+
+  const data =result.data;
 
   const existingUser = await prisma.user.findUnique({
     where: {
@@ -38,7 +46,7 @@ export async function signup(formData: FormData) {
   redirect("/login");
 }
 
-import { signIn, signOut } from "@/auth";
+import { signIn, signOut } from "../auth";
 
 export async function login(formData: FormData) {
   try {

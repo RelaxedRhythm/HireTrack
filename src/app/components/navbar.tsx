@@ -1,4 +1,4 @@
-import {auth} from "@/auth"
+import {auth} from "../../auth"
 import LogoutButton from "./logout-btns";
 
 export default async function Navbar() {
