@@ -1,4 +1,4 @@
-import { JobStatus, JobType } from "@prisma/client";
+import {Job, JobStatus, JobType ,Prisma } from "@prisma/client";
 
 export interface JobFilters {
   search?: string;
@@ -9,3 +9,27 @@ export interface JobFilters {
   sort?: string;
   order?: "asc" | "desc";
 }
+
+export interface Pagination {
+  total: number;
+  page: number;
+  limit: number;
+  totalPages: number;
+}
+
+export interface JobsResponse {
+  jobs: Job[];
+  pagination: Pagination;
+}
+
+export type JobResponse = Job;
+
+export interface DeleteJobResponse {
+  message: string;
+}
+// Future-proof for when we include relations
+export type JobWithCreator = Prisma.JobGetPayload<{
+  include: {
+    createdBy: true;
+  };
+}>;

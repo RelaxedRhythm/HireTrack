@@ -2,8 +2,9 @@
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "./components/themeProvider";
-import  Navbar  from "./components/navbar";
+import Navbar from "./components/navbar";
 import { Sidebar } from "./components/sidebar";
+import QueryProvider from "@/providers/query-provider";
 
 // const inter = Inter({
 //   subsets: ["latin"],
@@ -31,22 +32,24 @@ export default function RootLayout({ children }) {
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
-          <div className="flex min-h-screen">
-            {/* Sidebar */}
-            <Sidebar />
+        <QueryProvider>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
+            <div className="flex min-h-screen">
+              {/* Sidebar */}
+              <Sidebar />
 
-            {/* Main Content */}
-            <div className="flex flex-1 flex-col">
-              <main className="flex-1 p-6">{children}</main>
+              {/* Main Content */}
+              <div className="flex flex-1 flex-col">
+                <main className="flex-1 p-6">{children}</main>
+              </div>
             </div>
-          </div>
-        </ThemeProvider>
+          </ThemeProvider>
+        </QueryProvider>
       </body>
     </html>
   );

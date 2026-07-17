@@ -1,4 +1,4 @@
-import { Prisma } from "@prisma/client";
+import { Prisma, JobStatus, JobType } from "@prisma/client";
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
@@ -103,11 +103,11 @@ export async function GET(req: NextRequest) {
     }
 
     if (status) {
-      where.status = status as any;
+      where.status = status as JobStatus;
     }
 
     if (type) {
-      where.type = type as any;
+      where.type = type as JobType;
     }
 
     const allowedSortFields = [
