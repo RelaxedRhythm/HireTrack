@@ -1,4 +1,4 @@
-import {Prisma} from "@prisma/client";
+import { Prisma } from "@prisma/client";
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
@@ -9,10 +9,7 @@ export async function POST(req: NextRequest) {
     const session = await auth();
 
     if (!session?.user?.id) {
-      return NextResponse.json(
-        { message: "Unauthorized" },
-        { status: 401 }
-      );
+      return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
     }
 
     const body = await req.json();
@@ -24,7 +21,7 @@ export async function POST(req: NextRequest) {
         {
           errors: validation.error.flatten().fieldErrors,
         },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -47,7 +44,7 @@ export async function POST(req: NextRequest) {
       },
       {
         status: 500,
-      }
+      },
     );
   }
 }
@@ -63,7 +60,7 @@ export async function GET(req: NextRequest) {
         },
         {
           status: 401,
-        }
+        },
       );
     }
 
@@ -85,34 +82,43 @@ export async function GET(req: NextRequest) {
 
     const skip = (page - 1) * limit;
 
-    const where: Prisma.JobWhereInput= {
+    const where: Prisma.JobWhereInput = {
       createdById: session.user.id,
-
-      ...(search && {
-        OR: [
-          {
-            title: {
-              contains: search,
-              mode: "insensitive" as const,
-            },
-          },
-          {
-            company: {
-              contains: search,
-              mode: "insensitive" as const,
-            },
-          },
-        ],
-      }),
-
-      ...(status && {
-        status,
-      }),
-
-      ...(type && {
-        type,
-      }),
     };
+    if (search) {
+      where.OR = [
+        {
+          title: {
+            contains: search,
+            mode: "insensitive" as const,
+          },
+        },
+        {
+          company: {
+            contains: search,
+            mode: "insensitive" as const,
+          },
+        },
+      ];
+    }
+
+    if (status) {
+      where.status = status as any;
+    }
+
+    if (type) {
+      where.type = type as any;
+    }
+
+    const allowedSortFields = [
+      "createdAt",
+      "updatedAt",
+      "company",
+      "title",
+      "status",
+    ];
+
+    const sortField = allowedSortFields.includes(sort) ? sort : "createdAt";
 
     const [jobs, total] = await Promise.all([
       prisma.job.findMany({
@@ -121,7 +127,7 @@ export async function GET(req: NextRequest) {
         take: limit,
 
         orderBy: {
-          [sort]: order,
+          [sortField]: order,
         },
       }),
 
@@ -146,10 +152,11 @@ export async function GET(req: NextRequest) {
     return NextResponse.json(
       {
         message: "Internal Server Error",
+        error,
       },
       {
         status: 500,
-      }
+      },
     );
   }
-} 
+}
