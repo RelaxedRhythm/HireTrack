@@ -102,11 +102,11 @@ export async function GET(req: NextRequest) {
       ];
     }
 
-    if (status) {
+    if (status && status!=="all"  && Object.values(JobStatus).includes(status as JobStatus)) {
       where.status = status as JobStatus;
     }
 
-    if (type) {
+    if (type && type!=="all" &&Object.values(JobType).includes(type as JobType)) {
       where.type = type as JobType;
     }
 

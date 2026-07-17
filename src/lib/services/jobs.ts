@@ -1,4 +1,4 @@
-import { JobInput } from "@/lib/validations/job";
+import { JobInput } from "@/lib/validations/jobs";
 import { DeleteJobResponse, JobFilters, JobResponse, JobsResponse } from "@/types/job";
 
 

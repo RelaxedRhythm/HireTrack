@@ -7,13 +7,14 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { JobStatus, JobType } from "@prisma/client";
 
 
 interface FiltersProps {
-  status: string;
-  type: string;
-  onStatusChange: (value: string) => void;
-  onTypeChange: (value: string) => void;
+  status: JobStatus | "all";
+  type: JobType | "all";
+  onStatusChange: (value: JobStatus | "all") => void;
+  onTypeChange: (value: JobType | "all") => void;
 }
 
 
@@ -44,22 +45,37 @@ export default function Filters({
           <SelectItem value="all">
             All Status
           </SelectItem>
-
-          <SelectItem value="APPLIED">
+ <SelectItem value={JobStatus.APPLIED}>
             Applied
           </SelectItem>
 
-          <SelectItem value="INTERVIEW">
+
+          <SelectItem value={JobStatus.INTERVIEW}>
             Interview
           </SelectItem>
 
-          <SelectItem value="OFFER">
+
+          <SelectItem value={JobStatus.OFFER}>
             Offer
           </SelectItem>
 
-          <SelectItem value="REJECTED">
+
+          <SelectItem value={JobStatus.REJECTED}>
             Rejected
           </SelectItem>
+
+          <SelectItem value={JobStatus.OPEN}>
+            Open
+          </SelectItem>
+
+          <SelectItem value={JobStatus.CLOSED}>
+            CLOSED
+          </SelectItem>
+
+          <SelectItem value={JobStatus.DRAFT}>
+            DRAFT
+          </SelectItem>
+
 
         </SelectContent>
 
@@ -84,24 +100,26 @@ export default function Filters({
           </SelectItem>
 
 
-          <SelectItem value="FULL_TIME">
+          <SelectItem value={JobType.FULL_TIME}>
             Full Time
           </SelectItem>
 
 
-          <SelectItem value="PART_TIME">
+          <SelectItem value={JobType.PART_TIME}>
             Part Time
           </SelectItem>
 
 
-          <SelectItem value="INTERNSHIP">
+          <SelectItem value={JobType.INTERNSHIP}>
             Internship
           </SelectItem>
 
 
-          <SelectItem value="CONTRACT">
+          <SelectItem value={JobType.CONTRACT}>
             Contract
           </SelectItem>
+
+
 
 
         </SelectContent>

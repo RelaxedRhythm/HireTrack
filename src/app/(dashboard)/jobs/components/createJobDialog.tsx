@@ -18,10 +18,11 @@ import { JobInput } from "@/lib/validations/jobs";
 
 interface CreateJobDialogProps {
   onSuccess?: () => void;
+  onCreated?:() => void;
 }
 
 export default function CreateJobDialog({
-  onSuccess,
+  onSuccess, onCreated
 }: CreateJobDialogProps) {
   const [open, setOpen] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -43,7 +44,8 @@ export default function CreateJobDialog({
       if (!response.ok) {
         throw new Error("Failed to create job");
       }
-
+      console.log(response);
+      onCreated?.();
 
       setOpen(false);
 
