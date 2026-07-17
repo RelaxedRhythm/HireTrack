@@ -130,6 +130,20 @@ exports.Prisma.UserScalarFieldEnum = {
   updated_at: 'updated_at'
 };
 
+exports.Prisma.JobScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  company: 'company',
+  location: 'location',
+  type: 'type',
+  status: 'status',
+  salary: 'salary',
+  description: 'description',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  createdById: 'createdById'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -149,8 +163,23 @@ exports.Role = exports.$Enums.Role = {
   RECRUITER: 'RECRUITER'
 };
 
+exports.JobType = exports.$Enums.JobType = {
+  FULL_TIME: 'FULL_TIME',
+  PART_TIME: 'PART_TIME',
+  INTERNSHIP: 'INTERNSHIP',
+  CONTRACT: 'CONTRACT',
+  REMOTE: 'REMOTE'
+};
+
+exports.JobStatus = exports.$Enums.JobStatus = {
+  OPEN: 'OPEN',
+  CLOSED: 'CLOSED',
+  DRAFT: 'DRAFT'
+};
+
 exports.Prisma.ModelName = {
-  User: 'User'
+  User: 'User',
+  Job: 'Job'
 };
 
 /**

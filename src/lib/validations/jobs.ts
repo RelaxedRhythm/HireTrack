@@ -1,11 +1,14 @@
 import { z } from "zod";
 
 export const JobSchema = z.object({
-  title: z.string().min(3),
-  company: z.string().min(2),
-  location: z.string().optional(),
-  salary: z.string().optional(),
-  description: z.string().optional(),
+  title: z.string().trim().min(3,"Title must be atleast 3 characters").max(100),
+  company: z.string().trim().min(2,"Company name is required").max(100),
+  location: z.string().trim()
+    .max(100).optional(),
+  salary: z.string().trim()
+    .max(50).optional(),
+  description: z.string().trim()
+    .max(5000).optional(),
 
   type: z.enum([
     "FULL_TIME",
