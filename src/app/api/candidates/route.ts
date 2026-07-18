@@ -70,9 +70,9 @@ export async function GET(req: NextRequest) {
         where,
 
         include: {
-          applications: {
-            include: {
-              job: true,
+          _count: {
+            select: {
+              applications: true,
             },
           },
         },

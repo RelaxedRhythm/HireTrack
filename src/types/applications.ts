@@ -11,3 +11,7 @@ export interface Application {
   createdAt: Date;
   updatedAt: Date;
 }
+
+export interface ApplicationWithJob extends Application {
+  job: Job;
+}

@@ -4,12 +4,12 @@ import { useEffect, useState } from "react";
 
 import CreateJobDialog from "./components/createJobDialog";
 import JobsTable from "./components/jobsTable";
-import SearchBar from "./components/searchBar";
+import SearchBar from "../../components/shared/searchBar";
 import Filters from "./components/filters";
-import Pagination from "./components/pagination";
-import JobList from "./components/jobList";
+import Pagination from "../../components/shared/pagination";
 import type { Job } from "../../../types/job";
 import { JobStatus, JobType } from "@prisma/client";
+import LoadingState from "@/app/components/shared/loadingState";
 
 // interface Job {
 //   id: string;
@@ -117,6 +117,7 @@ export default function JobsPage() {
             setPage(1);
             setSearch(value);
           }}
+          placeholder="searching jobs...."
         />
 
         <Filters
@@ -128,7 +129,7 @@ export default function JobsPage() {
       </div>
 
       {loading ? (
-        <div className="text-center py-10">Loading jobs...</div>
+       <LoadingState message="Loading jobs"/>
       ) : (
         <JobsTable jobs={jobs} onRefresh={fetchJobs} />
       )}

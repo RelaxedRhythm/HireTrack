@@ -8,12 +8,13 @@ import { Input } from "@/components/ui/input";
 interface SearchBarProps {
   value: string;
   onChange: (value: string) => void;
+  placeholder?:string
 }
 
 
 export default function SearchBar({
   value,
-  onChange,
+  onChange, placeholder
 }: SearchBarProps) {
 
 
@@ -26,7 +27,7 @@ export default function SearchBar({
 
 
       <Input
-        placeholder="Search jobs..."
+        placeholder={placeholder}
         value={value}
         onChange={(e) => onChange(e.target.value)}
         className="pl-9"
