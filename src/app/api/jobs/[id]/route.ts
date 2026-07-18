@@ -31,6 +31,14 @@ export async function GET(
         id,
         createdById: session.user.id,
       },
+      include:{
+        applications:{
+            include:{
+                candidate:true
+            }
+        }
+    }
+
     });
 
     if (!job) {

@@ -74,7 +74,7 @@ export default function JobsPage() {
       const data = await response.json();
 
       setJobs(data.jobs);
-      setTotalPages(data.totalPages);
+      setTotalPages(data.pagination.totalPages);
     } catch (error) {
       console.error("Fetch jobs error:", error);
     } finally {

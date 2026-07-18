@@ -102,11 +102,19 @@ export async function GET(req: NextRequest) {
       ];
     }
 
-    if (status && status!=="all"  && Object.values(JobStatus).includes(status as JobStatus)) {
+    if (
+      status &&
+      status !== "all" &&
+      Object.values(JobStatus).includes(status as JobStatus)
+    ) {
       where.status = status as JobStatus;
     }
 
-    if (type && type!=="all" &&Object.values(JobType).includes(type as JobType)) {
+    if (
+      type &&
+      type !== "all" &&
+      Object.values(JobType).includes(type as JobType)
+    ) {
       where.type = type as JobType;
     }
 
@@ -123,6 +131,9 @@ export async function GET(req: NextRequest) {
     const [jobs, total] = await Promise.all([
       prisma.job.findMany({
         where,
+        include: {
+          applications: true,
+        },
         skip,
         take: limit,
 

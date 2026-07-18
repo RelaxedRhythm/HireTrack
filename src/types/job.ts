@@ -1,14 +1,17 @@
-import {Job, JobStatus, JobType ,Prisma } from "@prisma/client";
+import { JobStatus, JobType,Prisma } from "@prisma/client";
+import { Application } from "@/types/applications";
 
 export interface Job {
   id: string;
   title: string;
   company: string;
-  location: string;
+  location: string |null;
+  salary:string | null;
   type: JobType;
   status: JobStatus;
   description?: string | null;
-  createdAt?: string;
+  createdAt?: string; 
+  applications: Application[];
 }
 
 export interface JobFilters {
