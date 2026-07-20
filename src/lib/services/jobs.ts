@@ -29,7 +29,7 @@ export async function getJob(id: string) :Promise<JobResponse>{
     throw new Error("Failed to fetch job");
   }
 
-  return (await res.json()) as JobsResponse;
+ return (await res.json()) as JobResponse;
 }
 
 export async function createJob(data: JobInput): Promise<JobResponse>{

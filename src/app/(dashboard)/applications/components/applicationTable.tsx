@@ -20,12 +20,12 @@ import DeleteApplicationDialog from "./deleteApplicationDialog";
 
 interface ApplicationsTableProps {
   applications: Application[];
-  refresh: () => void;
+   setRefresh: React.Dispatch<React.SetStateAction<number>>;
 }
 
 export default function ApplicationsTable({
   applications,
-  refresh,
+  setRefresh,
 }: ApplicationsTableProps) {
   const [selectedApplication, setSelectedApplication] =
     useState<Application | null>(null);
@@ -125,7 +125,7 @@ export default function ApplicationsTable({
           application={selectedApplication}
           open={editOpen}
           setOpen={setEditOpen}
-          refresh={refresh}
+          setRefresh={setRefresh}
         />
       )}
       {deleteApplication && (
@@ -133,7 +133,7 @@ export default function ApplicationsTable({
           applicationId={deleteApplication.id}
           open={deleteOpen}
           setOpen={setDeleteOpen}
-          refresh={refresh}
+          setRefresh={setRefresh}
         />
       )}
     </>

@@ -1,7 +1,7 @@
 import { Prisma } from "@prisma/client";
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/auth";
-import { prisma } from "@/lib/prisma";
+import  prisma  from "@/lib/prisma";
 // import { CandidateSchema } from "@/lib/validations/candidates";
 
 // GET /api/candidates

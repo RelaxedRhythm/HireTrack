@@ -64,10 +64,8 @@ export default function CreateJobDialog({
       open={open}
       onOpenChange={setOpen}
     >
-      <DialogTrigger asChild>
-        <Button>
-          Create Job
-        </Button>
+      <DialogTrigger render={<Button />}>
+        Create Job
       </DialogTrigger>
 
 

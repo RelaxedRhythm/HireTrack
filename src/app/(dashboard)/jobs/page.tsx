@@ -36,14 +36,13 @@ export default function JobsPage() {
   const [loading, setLoading] = useState(false);
   const [refresh, setRefresh] = useState(0);
 
-
   useEffect(() => {
-  const timer = setTimeout(() => {
-    setDebouncedSearch(search);
-  }, 400);
+    const timer = setTimeout(() => {
+      setDebouncedSearch(search);
+    }, 400);
 
-  return () => clearTimeout(timer);
-}, [search]);
+    return () => clearTimeout(timer);
+  }, [search]);
 
   async function fetchJobs() {
     try {
@@ -68,7 +67,17 @@ export default function JobsPage() {
       const response = await fetch(`/api/jobs?${params.toString()}`);
 
       if (!response.ok) {
-        throw new Error("Failed to fetch jobs");
+        const error = await response.json().catch(() => null);
+
+        console.error({
+          status: response.status,
+          statusText: response.statusText,
+          error,
+        });
+
+        throw new Error(
+          error?.message || `Failed to fetch jobs (${response.status})`,
+        );
       }
 
       const data = await response.json();
@@ -103,9 +112,7 @@ export default function JobsPage() {
           <p className="text-muted-foreground">Manage your job applications</p>
         </div>
 
-        <CreateJobDialog
-          onSuccess={fetchJobs}
-        />
+        <CreateJobDialog onSuccess={fetchJobs} />
       </div>
 
       {/* <JobList refresh={refresh}/> */}
@@ -129,7 +136,7 @@ export default function JobsPage() {
       </div>
 
       {loading ? (
-       <LoadingState message="Loading jobs"/>
+        <LoadingState message="Loading jobs" />
       ) : (
         <JobsTable jobs={jobs} onRefresh={fetchJobs} />
       )}

@@ -3,13 +3,14 @@
 import { useQuery,keepPreviousData } from "@tanstack/react-query";
 import { getJobs } from "../../lib/services/jobs";
 import { jobKeys } from "./jobKeys";
+import { JobStatus, JobType } from "@prisma/client";
 
 interface UseJobsProps {
   page?: number;
   limit?: number;
   search?: string;
-  status?: string;
-  type?: string;
+  status?: JobStatus;
+  type?: JobType;
   sort?: string;
   order?: "asc" | "desc";
 }
@@ -18,8 +19,8 @@ export function useJobs({
   page = 1,
   limit = 10,
   search = "",
-  status = "",
-  type = "",
+  status ,
+  type ,
   sort = "createdAt",
   order = "desc",
 }: UseJobsProps) {

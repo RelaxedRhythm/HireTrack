@@ -1,5 +1,4 @@
 "use client";
-import { JobType, JobStatus } from "@prisma/client";
 import { useState } from "react";
 
 import {
@@ -18,19 +17,13 @@ import type { JobInput } from "@/lib/validations/jobs";
 
 import type { Job } from "@/types/job";
 
-// interface Job {
-//   id: string;
-//   title: string;
-//   company: string;
-//   location: string;
-//   type: JobType;
-//   status: JobStatus;
-//   description?: string | null;
-// }
-
+type EditableJob = Pick<
+  Job,
+  "id" | "title" | "company" | "location" | "type" | "status" | "description"
+>;
 
 interface EditJobDialogProps {
-  job: Job;
+  job: EditableJob;
   onSuccess?: () => void;
 }
 
@@ -84,10 +77,8 @@ export default function EditJobDialog({
       onOpenChange={setOpen}
     >
 
-      <DialogTrigger asChild>
-        <Button variant="outline">
-          Edit
-        </Button>
+      <DialogTrigger render={<Button variant="outline" />}>
+        Edit
       </DialogTrigger>
 
 
@@ -104,9 +95,9 @@ export default function EditJobDialog({
           defaultValues={{
             title: job.title,
             company: job.company,
-            location: job.location,
-            type: job.type as JobType,
-            status: job.status as JobStatus,
+            location: job.location ?? "",
+            type: job.type as JobInput["type"],
+            status: job.status as JobInput["status"],
             description: job.description ?? "",
           }}
           onSubmit={handleUpdate}

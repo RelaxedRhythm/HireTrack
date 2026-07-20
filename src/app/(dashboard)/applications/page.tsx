@@ -48,6 +48,7 @@ export default function ApplicationsPage() {
 
       <ApplicationList
         refresh={refresh}
+        setRefresh={setRefresh}
         search={search}
         page={page}
         status={status}

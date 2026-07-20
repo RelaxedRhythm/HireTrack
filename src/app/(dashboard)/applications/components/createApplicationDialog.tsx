@@ -12,15 +12,15 @@ import { Button } from "@/components/ui/button";
 import ApplicationForm from "./applicationForm";
 
 interface Props {
-  refresh: () => void;
+   onSuccess: () => void;
 }
 
 export default function CreateApplicationDialog({
-  refresh,
+  onSuccess,
 }: Props) {
   return (
     <Dialog>
-      <DialogTrigger asChild>
+      <DialogTrigger>
         <Button>
           Add Application
         </Button>
@@ -33,7 +33,7 @@ export default function CreateApplicationDialog({
           </DialogTitle>
         </DialogHeader>
 
-        <ApplicationForm refresh={refresh} />
+        <ApplicationForm onSuccess={onSuccess} />
       </DialogContent>
     </Dialog>
   );

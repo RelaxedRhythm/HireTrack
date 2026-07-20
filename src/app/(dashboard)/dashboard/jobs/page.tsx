@@ -1,6 +1,6 @@
 import { auth } from "@/auth";
 import { redirect } from "next/navigation";
-import JobsTable from "@/components/jobs/jobs-table";
+import JobsTable from "@/app/(dashboard)/jobs/components/jobsTable";
 
 interface PageProps {
   searchParams: Promise<{
@@ -67,7 +67,7 @@ export default async function JobsPage({
 
       <JobsTable
         jobs={data.jobs}
-        pagination={data.pagination}
+        // pagination={data.pagination}
       />
     </div>
   );

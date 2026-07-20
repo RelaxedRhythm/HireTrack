@@ -1,6 +1,6 @@
 "use server";
 import "dotenv/config"
-import { prisma } from "@/lib/prisma";
+import  prisma  from "@/lib/prisma";
 import bcrypt from "bcryptjs";
 import { signupSchema } from "@/lib/validations/users";
 import { redirect } from "next/navigation";
@@ -48,18 +48,27 @@ export async function signup(formData: FormData) {
 
 import { signIn, signOut } from "../auth";
 
+// export async function login(formData: FormData) {
+//   try {
+//     await signIn("credentials", {
+//       email: formData.get("email"),
+//       password: formData.get("password"),
+//       redirectTo: "/dashboard",
+//     });
+//   } catch (error){
+//     console.log(error);
+//     return {
+//       error: "Invalid email or password",
+//     };
+//   }
+// }
+
 export async function login(formData: FormData) {
-  try {
-    await signIn("credentials", {
-      email: formData.get("email"),
-      password: formData.get("password"),
-      redirectTo: "/dashboard",
-    });
-  } catch {
-    return {
-      error: "Invalid email or password",
-    };
-  }
+  await signIn("credentials", {
+    email: formData.get("email"),
+    password: formData.get("password"),
+    redirectTo: "/dashboard",
+  });
 }
 
 export async function logout() {

@@ -62,13 +62,8 @@ export default function DeleteJobDialog({
   return (
     <AlertDialog>
 
-      <AlertDialogTrigger asChild>
-        <Button
-          variant="destructive"
-          size="sm"
-        >
-          Delete
-        </Button>
+      <AlertDialogTrigger render={<Button variant="destructive" size="sm" />}>
+        Delete
       </AlertDialogTrigger>
 
 

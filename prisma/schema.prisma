@@ -1,8 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Get a free hosted Postgres database in seconds: `npx create-db`
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -11,40 +6,63 @@ datasource db {
   provider = "postgresql"
 }
 
-enum Role {
-  ADMIN
-  RECRUITER
-}
-
 model User {
-  id       String  @id @default(cuid())
-  email    String  @unique
-  name     String?
-  password String
-  role     Role    @default(RECRUITER)
-
+  id         String   @id @default(cuid())
+  email      String   @unique
+  name       String?
   created_at DateTime @default(now())
+  password   String
+  role       Role     @default(RECRUITER)
   updated_at DateTime @updatedAt
   jobs       Job[]
 }
 
 model Job {
-  id          String    @id @default(cuid())
-  title       String
-  company     String
-  location    String?
-  type        JobType
-  status      JobStatus @default(OPEN)
-  salary      String?
-  description String?
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  createdById String
-  createdBy   User   @relation(fields: [createdById], references: [id], onDelete: Cascade)
-
+  id           String        @id @default(cuid())
+  title        String
+  company      String
+  location     String?
+  type         JobType
+  status       JobStatus     @default(OPEN)
+  salary       String?
+  description  String?
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  createdById  String
   applications Application[]
+  createdBy    User          @relation(fields: [createdById], references: [id], onDelete: Cascade)
+}
+
+model Candidate {
+  id           String        @id @default(cuid())
+  name         String
+  email        String        @unique
+  phone        String?
+  resumeUrl    String?
+  linkedinUrl  String?
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  applications Application[]
+}
+
+model Application {
+  id          String            @id @default(cuid())
+  candidateId String
+  jobId       String
+  status      ApplicationStatus @default(APPLIED)
+  notes       String?
+  rating      Int?
+  createdAt   DateTime          @default(now())
+  updatedAt   DateTime          @updatedAt
+  candidate   Candidate         @relation(fields: [candidateId], references: [id], onDelete: Cascade)
+  job         Job               @relation(fields: [jobId], references: [id], onDelete: Cascade)
+
+  @@unique([candidateId, jobId])
+}
+
+enum Role {
+  ADMIN
+  RECRUITER
 }
 
 enum JobType {
@@ -63,43 +81,6 @@ enum JobStatus {
   INTERVIEW
   OFFER
   REJECTED
-}
-
-
-model Candidate {
-  id          String   @id @default(cuid())
-
-  name        String
-  email       String   @unique
-  phone       String?
-
-  resumeUrl   String?
-  linkedinUrl String?
-
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-
-  applications Application[]
-}
-
-model Application {
-  id          String   @id @default(cuid())
-
-  candidateId String
-  jobId       String
-
-  status      ApplicationStatus @default(APPLIED)
-
-  notes       String?
-  rating      Int?
-
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-
-  candidate Candidate @relation(fields: [candidateId], references: [id], onDelete: Cascade)
-  job       Job       @relation(fields: [jobId], references: [id], onDelete: Cascade)
-
-  @@unique([candidateId, jobId])
 }
 
 enum ApplicationStatus {

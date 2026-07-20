@@ -1,7 +1,7 @@
 import { Prisma, JobStatus, JobType } from "@prisma/client";
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/auth";
-import { prisma } from "@/lib/prisma";
+import  prisma  from "@/lib/prisma";
 import { JobSchema } from "@/lib/validations/jobs";
 
 export async function POST(req: NextRequest) {
@@ -82,9 +82,12 @@ export async function GET(req: NextRequest) {
 
     const skip = (page - 1) * limit;
 
-    const where: Prisma.JobWhereInput = {
-      createdById: session.user.id,
-    };
+    const where: Prisma.JobWhereInput = {};
+
+    if(session.user.role==="RECRUITER"){
+    where.createdById=session.user.id;
+  }
+
     if (search) {
       where.OR = [
         {
@@ -128,37 +131,41 @@ export async function GET(req: NextRequest) {
 
     const sortField = allowedSortFields.includes(sort) ? sort : "createdAt";
 
-    const [jobs, total] = await Promise.all([
-      prisma.job.findMany({
-        where,
-        include: {
-          applications: true,
-        },
-        skip,
-        take: limit,
+    // const [jobs, total] = await Promise.all([
+    //   prisma.job.findMany({
+    //     where,
+    //     // include: {
+    //     //   applications: true,
+    //     // },
+    //     skip,
+    //     take: limit,
 
-        orderBy: {
-          [sortField]: order,
-        },
-      }),
+    //     orderBy: {
+    //       [sortField]: order,
+    //     },
+    //   }),
+    //   prisma.job.count({
+    //     where,
+    //   }),
+    // ]);
 
-      prisma.job.count({
-        where,
-      }),
-    ]);
+    const jobs = await prisma.job.findMany({
+  where,
+});
 
+     console.log("after queries");
     return NextResponse.json({
       jobs,
 
-      pagination: {
-        total,
-        page,
-        limit,
-        totalPages: Math.ceil(total / limit),
-      },
+      // pagination: {
+      //   total,
+      //   page,
+      //   limit,
+      //   totalPages: Math.ceil(total / limit),
+      // },
     });
   } catch (error) {
-    console.error(error);
+    console.error("JOBS API ERROR:", JSON.stringify(error, null, 2));
 
     return NextResponse.json(
       {

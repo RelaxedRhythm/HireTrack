@@ -16,7 +16,7 @@ interface Props {
   applicationId: string;
   open: boolean;
   setOpen: (value:boolean)=>void;
-  refresh:()=>void;
+   setRefresh: React.Dispatch<React.SetStateAction<number>>;
 }
 
 
@@ -24,7 +24,7 @@ export default function DeleteApplicationDialog({
   applicationId,
   open,
   setOpen,
-  refresh,
+  setRefresh,
 }:Props){
 
 
@@ -47,7 +47,7 @@ export default function DeleteApplicationDialog({
       }
 
 
-      refresh();
+      setRefresh(prev => prev + 1);
       setOpen(false);
 
 

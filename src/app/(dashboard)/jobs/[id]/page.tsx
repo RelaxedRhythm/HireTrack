@@ -13,17 +13,7 @@ import { Button } from "@/components/ui/button";
 import EditJobDialog from "../components/editJobDialog";
 import DeleteJobDialog from "../components/deleteJobDialog";
 
-
-interface Job {
-  id: string;
-  title: string;
-  company: string;
-  location: string;
-  type: string;
-  status: string;
-  description?: string | null;
-  createdAt: string;
-}
+import type { Job } from "@/types/job";
 
 
 interface JobDetailsPageProps {
@@ -76,12 +66,11 @@ export default async function JobDetailsPage({
 
 
         <Button
-          asChild
           variant="outline"
+          nativeButton={false}
+          render={<Link href="/dashboard/jobs" />}
         >
-          <Link href="/dashboard/jobs">
-            ← Back
-          </Link>
+          ← Back
         </Button>
 
 

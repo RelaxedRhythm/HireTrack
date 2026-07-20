@@ -1,6 +1,5 @@
 "use client";
 
-
 import {
   Dialog,
   DialogContent,
@@ -8,75 +7,48 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 
-
 import ApplicationForm from "./applicationForm";
 
-
-import type { Application } from "@prisma/client";
-
-
+import type { Application } from "@/types/applications";
 
 interface Props {
-
   application: Application;
 
-  open:boolean;
+  open: boolean;
 
-  setOpen:(value:boolean)=>void;
+  setOpen: (value: boolean) => void;
 
-  refresh:()=>void;
-
+  setRefresh: React.Dispatch<React.SetStateAction<number>>;
 }
 
-
-
 export default function EditApplicationDialog({
-
   application,
   open,
   setOpen,
-  refresh
-
-}:Props){
-
-
+  setRefresh,
+}: Props) {
   return (
-
-    <Dialog
-      open={open}
-      onOpenChange={setOpen}
-    >
-
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogContent>
-
         <DialogHeader>
-
-          <DialogTitle>
-            Edit Application
-          </DialogTitle>
-
+          <DialogTitle>Edit Application</DialogTitle>
         </DialogHeader>
 
-
-
         <ApplicationForm
-
-          initialData={application}
-
-          refresh={refresh}
-
-          onSuccess={()=>
-            setOpen(false)
-          }
-
+          initialData={{
+            id: application.id,
+            candidateId: application.candidate.id,
+            jobId: application.job.id,
+            status: application.status,
+            notes: application.notes,
+            rating: application.rating,
+          }}
+          onSuccess={() => {
+            setRefresh((prev) => prev + 1);
+            setOpen(false);
+          }}
         />
-
-
       </DialogContent>
-
-
     </Dialog>
-
   );
-
 }

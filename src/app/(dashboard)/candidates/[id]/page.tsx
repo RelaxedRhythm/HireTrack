@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 
 import CandidateProfile from "../components/candidateProfile";
-import CandidateApplicationsTable from "../components/candidateApplicationsTable";
+import CandidateApplicationsTable from "../components/candidateApplicationTable";
 
 import LoadingState from "@/app/components/shared/loadingState";
 import ErrorState from "@/app/components/shared/errorState";

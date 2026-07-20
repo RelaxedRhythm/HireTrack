@@ -32,7 +32,7 @@ export default function Filters({
 
       <Select
         value={status}
-        onValueChange={onStatusChange}
+        onValueChange={(value) => onStatusChange((value ?? "all") as JobStatus | "all")}
       >
 
         <SelectTrigger className="w-[180px]">
@@ -85,7 +85,7 @@ export default function Filters({
 
       <Select
         value={type}
-        onValueChange={onTypeChange}
+        onValueChange={(value) => onTypeChange((value ?? "all") as JobType | "all")}
       >
 
         <SelectTrigger className="w-[180px]">

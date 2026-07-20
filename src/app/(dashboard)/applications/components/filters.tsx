@@ -55,7 +55,7 @@ export default function Filters({
     <div className="flex flex-wrap gap-4">
       <Select
         value={status}
-        onValueChange={setStatus}
+        onValueChange={(value) => setStatus(value ?? "")}
       >
         <SelectTrigger className="w-[200px]">
           <SelectValue placeholder="Application Status" />
@@ -77,7 +77,7 @@ export default function Filters({
 
       <Select
         value={jobId}
-        onValueChange={(value)=>setJobId(value==="all"? "":value)}
+        onValueChange={(value) => setStatus(value ?? "")}
       >
         <SelectTrigger className="w-[250px]">
           <SelectValue placeholder="All Jobs" />

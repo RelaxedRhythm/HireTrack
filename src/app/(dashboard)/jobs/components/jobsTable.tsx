@@ -11,17 +11,7 @@ import {
 
 import EditJobDialog from "./editJobDialog";
 import DeleteJobDialog from "./deleteJobDialog";
-import { JobStatus, JobType } from "@prisma/client";
-
-interface Job {
-  id: string;
-  title: string;
-  company: string;
-  location: string;
-  type: JobType;
-  status: JobStatus;
-  description?: string | null;
-}
+import type { Job } from "@/types/job";
 
 
 interface JobsTableProps {

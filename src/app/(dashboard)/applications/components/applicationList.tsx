@@ -12,6 +12,7 @@ import ErrorState from "@/app/components/shared/errorState";
 
 interface ApplicationListProps {
   refresh: number;
+  setRefresh: React.Dispatch<React.SetStateAction<number>>;
   search: string;
   status: string;
   jobId: string;
@@ -21,6 +22,7 @@ interface ApplicationListProps {
 
 export default function ApplicationList({
   refresh,
+  setRefresh,
   search,
   status,
   jobId,
@@ -55,11 +57,7 @@ export default function ApplicationList({
         setApplications(data.applications);
         setTotalPages(data.pagination.totalPages);
       } catch (err) {
-        setError(
-          err instanceof Error
-            ? err.message
-            : "Something went wrong"
-        );
+        setError(err instanceof Error ? err.message : "Something went wrong");
       } finally {
         setLoading(false);
       }
@@ -68,10 +66,9 @@ export default function ApplicationList({
     fetchApplications();
   }, [refresh, search, status, jobId, page, setTotalPages]);
 
+
   if (loading) {
-    return (
-      <LoadingState message="Loading applications..." />
-    );
+    return <LoadingState message="Loading applications..." />;
   }
 
   if (error) {
@@ -79,14 +76,8 @@ export default function ApplicationList({
   }
 
   if (applications.length === 0) {
-    return (
-      <EmptyState message="No applications found." />
-    );
+    return <EmptyState message="No applications found." />;
   }
 
-  return (
-    <ApplicationsTable
-      applications={applications}
-    />
-  );
+  return <ApplicationsTable applications={applications}  setRefresh={setRefresh} />;
 }

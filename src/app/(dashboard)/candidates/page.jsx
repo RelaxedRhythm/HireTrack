@@ -3,8 +3,8 @@
 import { useState } from "react";
 
 import SearchBar from "../../components/shared/searchBar";
-import CandidateList from "../../components/candidateList";
-import Pagination from "./components/shared/pagination";
+import CandidateList from "./components/candidateList";
+import Pagination from "../../components/shared/pagination";
 
 export default function CandidatesPage() {
   const [refresh, setRefresh] = useState(0);
@@ -21,8 +21,9 @@ export default function CandidatesPage() {
           onChange={(value) => {
             setSearch(value);
             setPage(1);
-            placeholder="searching candidates"
-          }}
+          }
+        }
+          placeholder="searching candidates"
         />
       </div>
 

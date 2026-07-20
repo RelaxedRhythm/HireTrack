@@ -10,7 +10,11 @@ export default function ProfileForm({
 
     return(
 
-        <form action={updateProfile}>
+        <form
+            action={async (formData) => {
+                await updateProfile(formData);
+            }}
+        >
 
             <input
                 name="name"
