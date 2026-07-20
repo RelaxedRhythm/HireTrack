@@ -7,14 +7,15 @@ datasource db {
 }
 
 model User {
-  id         String   @id @default(cuid())
-  email      String   @unique
+  id         String     @id @default(cuid())
+  email      String     @unique
   name       String?
-  created_at DateTime @default(now())
+  created_at DateTime   @default(now())
   password   String
-  role       Role     @default(RECRUITER)
-  updated_at DateTime @updatedAt
+  role       Role       @default(RECRUITER)
+  updated_at DateTime   @updatedAt
   jobs       Job[]
+  activities Activity[]
 }
 
 model Job {
@@ -60,6 +61,20 @@ model Application {
   @@unique([candidateId, jobId])
 }
 
+model Activity {
+  id String @id @default(cuid())
+
+  message String
+
+  type ActivityType
+
+  createdAt DateTime @default(now())
+
+  createdById String
+
+  createdBy User   @relation(fields:[createdById],references: [id], onDelete: Cascade)
+}
+
 enum Role {
   ADMIN
   RECRUITER
@@ -77,10 +92,6 @@ enum JobStatus {
   OPEN
   CLOSED
   DRAFT
-  APPLIED
-  INTERVIEW
-  OFFER
-  REJECTED
 }
 
 enum ApplicationStatus {
@@ -90,4 +101,16 @@ enum ApplicationStatus {
   OFFER
   HIRED
   REJECTED
+}
+
+enum ActivityType {
+  JOB_CREATED
+
+  APPLICATION_RECEIVED
+
+  INTERVIEW_SCHEDULED
+
+  CANDIDATE_HIRED
+
+  JOB_UPDATED
 }
