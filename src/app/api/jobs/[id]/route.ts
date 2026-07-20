@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/auth";
-import  prisma  from "@/lib/prisma";
+import prisma from "@/lib/prisma";
 import { JobSchema } from "@/lib/validations/jobs";
 
 interface RouteParams {
@@ -10,42 +10,38 @@ interface RouteParams {
 }
 
 // GET /api/jobs/[id]
-export async function GET(
-  req: NextRequest,
-  { params }: RouteParams
-) {
+export async function GET(req: NextRequest, { params }: RouteParams) {
   try {
     const session = await auth();
 
     if (!session?.user?.id) {
-      return NextResponse.json(
-        { message: "Unauthorized" },
-        { status: 401 }
-      );
+      return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
     }
 
     const { id } = await params;
+    console.log({
+      id,
+      sessionUser: session.user.id,
+    });
 
     const job = await prisma.job.findFirst({
       where: {
         id,
-        createdById: session.user.id,
+        // createdById: session.user.id,
       },
-      include:{
-        applications:{
-            include:{
-                candidate:true
-            }
-        }
-    }
-
+      // include: {
+      //   applications: {
+      //     include: {
+      //       candidate: true,
+      //     },
+      //   },
+      // },
     });
 
+    console.log(job);
+
     if (!job) {
-      return NextResponse.json(
-        { message: "Job not found" },
-        { status: 404 }
-      );
+      return NextResponse.json({ message: "Job not found" }, { status: 404 });
     }
 
     return NextResponse.json(job);
@@ -54,24 +50,18 @@ export async function GET(
 
     return NextResponse.json(
       { message: "Internal Server Error" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
 
 // PATCH /api/jobs/[id]
-export async function PATCH(
-  req: NextRequest,
-  { params }: RouteParams
-) {
+export async function PATCH(req: NextRequest, { params }: RouteParams) {
   try {
     const session = await auth();
 
     if (!session?.user?.id) {
-      return NextResponse.json(
-        { message: "Unauthorized" },
-        { status: 401 }
-      );
+      return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
     }
 
     const { id } = await params;
@@ -84,10 +74,7 @@ export async function PATCH(
     });
 
     if (!existingJob) {
-      return NextResponse.json(
-        { message: "Job not found" },
-        { status: 404 }
-      );
+      return NextResponse.json({ message: "Job not found" }, { status: 404 });
     }
 
     const body = await req.json();
@@ -101,7 +88,7 @@ export async function PATCH(
         },
         {
           status: 400,
-        }
+        },
       );
     }
 
@@ -118,24 +105,18 @@ export async function PATCH(
 
     return NextResponse.json(
       { message: "Internal Server Error" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
 
 // DELETE /api/jobs/[id]
-export async function DELETE(
-  req: NextRequest,
-  { params }: RouteParams
-) {
+export async function DELETE(req: NextRequest, { params }: RouteParams) {
   try {
     const session = await auth();
 
     if (!session?.user?.id) {
-      return NextResponse.json(
-        { message: "Unauthorized" },
-        { status: 401 }
-      );
+      return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
     }
 
     const { id } = await params;
@@ -148,10 +129,7 @@ export async function DELETE(
     });
 
     if (!existingJob) {
-      return NextResponse.json(
-        { message: "Job not found" },
-        { status: 404 }
-      );
+      return NextResponse.json({ message: "Job not found" }, { status: 404 });
     }
 
     await prisma.job.delete({
@@ -168,7 +146,7 @@ export async function DELETE(
 
     return NextResponse.json(
       { message: "Internal Server Error" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

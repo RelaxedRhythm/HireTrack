@@ -150,7 +150,9 @@ export async function GET(req: NextRequest) {
     // ]);
 
     const jobs = await prisma.job.findMany({
-  where,
+  where,include: {
+    applications: true,
+  },
 });
 
      console.log("after queries");

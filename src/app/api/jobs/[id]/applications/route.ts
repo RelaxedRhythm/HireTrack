@@ -5,7 +5,7 @@ import { CreateApplicationSchema } from "../../../../../lib/validations/applicat
 
 interface RouteParams {
   params: Promise<{
-    jobId: string;
+    id: string;
   }>;
 }
 
@@ -23,12 +23,11 @@ export async function POST(
       );
     }
 
-    const { jobId } = await params;
+    const { id: jobId } = await params;
 
     const job = await prisma.job.findFirst({
       where: {
         id: jobId,
-        createdById: session.user.id,
       },
     });
 
@@ -149,12 +148,11 @@ export async function GET(
       );
     }
 
-    const { jobId } = await params;
+    const { id : jobId } = await params;
 
     const job = await prisma.job.findFirst({
       where: {
         id: jobId,
-        createdById: session.user.id,
       },
     });
 
