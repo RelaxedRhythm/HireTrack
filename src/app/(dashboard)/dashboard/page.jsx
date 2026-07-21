@@ -1,4 +1,11 @@
 import {StatsCards} from "./components/StatsCards"
+import { HiringFunnelChart } from "./components/HiringFunnelChart";
+import {CandidateStatusChart} from "./components/CandidateStatusChart"
+import {ApplicationOverTimeChart} from "./components/ApplicationOverTimeChart"
+import { RecentJobs } from "./components/RecentJobs";
+import { RecentCandidates } from "./components/RecentCandidates";
+import { ActivityFeed } from "./components/ActivityFeed";
+import { QuickActions } from "./components/QuickActions";
 
 export default function DashboardPage() {
   return (
@@ -6,19 +13,19 @@ export default function DashboardPage() {
       <StatsCards />
 
       <div className="grid gap-6 lg:grid-cols-2">
-        {/* <HiringFunnelChart /> */}
-        {/* <CandidateStatusChart /> */}
+        <HiringFunnelChart />
+        <CandidateStatusChart />
       </div>
 
-      {/* <ApplicationsOverTimeChart /> */}
+      <ApplicationOverTimeChart />
 
       <div className="grid gap-6 lg:grid-cols-3">
-        {/* <RecentJobs /> */}
-        {/* <RecentCandidates /> */}
+        <RecentJobs />
+        <RecentCandidates />
         {/* <ActivityFeed /> */}
       </div>
 
-      {/* <QuickActions /> */}
+      <QuickActions />
     </div>
   );
 }

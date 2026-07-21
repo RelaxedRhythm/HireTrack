@@ -14,19 +14,25 @@ import {
 import { Button } from "@/components/ui/button";
 
 import type { Candidate } from "@/types/candidates";
+import { EmptyState } from "@/app/components/shared/emptyState";
+import { TableSkeleton } from "@/app/components/shared/tableSkeleton";
 
 interface CandidatesTableProps {
   candidates: Candidate[];
+  loading:boolean
 }
 
 export default function CandidatesTable({
-  candidates,
+  candidates,loading
 }: CandidatesTableProps) {
+  if(loading){
+    return (
+      <TableSkeleton/>
+    )
+  }
   if (candidates.length === 0) {
     return (
-      <div className="rounded-lg border border-dashed py-10 text-center text-muted-foreground">
-        No candidates found.
-      </div>
+      <EmptyState title="No Candidates Found"/>
     );
   }
 

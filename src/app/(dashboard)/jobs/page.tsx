@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 
 import CreateJobDialog from "./components/createJobDialog";
 import JobsTable from "./components/jobsTable";
@@ -44,7 +44,7 @@ export default function JobsPage() {
     return () => clearTimeout(timer);
   }, [search]);
 
-  async function fetchJobs() {
+  const fetchJobs = useCallback(async () => {
     try {
       setLoading(true);
 
@@ -89,19 +89,18 @@ export default function JobsPage() {
     } finally {
       setLoading(false);
     }
-  }
-
+  }, [page, debouncedSearch, status, type]);
   useEffect(() => {
     fetchJobs();
-  }, [page, debouncedSearch, status, type, refresh]);
+  }, [fetchJobs]);
 
-  function handleFilterChange(callback: (value: string) => void) {
-    return (value: string) => {
-      setPage(1);
-
-      callback(value);
-    };
-  }
+ function handleFilterChange<T>(callback: (value: T) => void) {
+  return (value: T) => {
+    setPage(1);
+    callback(value);
+  };
+}
+  console.log({ loading });
 
   return (
     <div className="space-y-6">
@@ -131,15 +130,11 @@ export default function JobsPage() {
           status={status}
           type={type}
           onStatusChange={setStatus}
-          onTypeChange={setType}
+          onTypeChange={handleFilterChange(setType)}
         />
       </div>
 
-      {loading ? (
-        <LoadingState message="Loading jobs" />
-      ) : (
-        <JobsTable jobs={jobs} onRefresh={fetchJobs} />
-      )}
+      <JobsTable jobs={jobs} onRefresh={fetchJobs} loading={loading} />
 
       <Pagination page={page} totalPages={totalPages} onPageChange={setPage} />
     </div>

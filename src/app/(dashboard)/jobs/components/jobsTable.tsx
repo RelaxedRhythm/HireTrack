@@ -15,24 +15,28 @@ import type { Job } from "@/types/job";
 
 import Link from "next/link";
 import { Button } from "@base-ui/react";
-
+import { EmptyState } from "@/app/components/shared/emptyState";
+import {TableSkeleton} from "@/app/components/shared/tableSkeleton"
 interface JobsTableProps {
   jobs: Job[];
   onRefresh?: () => void;
+  loading: boolean;
 }
 
 
 export default function JobsTable({
   jobs,
   onRefresh,
+  loading
 }: JobsTableProps) {
-
+  if (loading) {
+    return <TableSkeleton rows={6} columns={7} />;
+  }
 
   if (!jobs.length) {
     return (
-      <div className="rounded-md border p-8 text-center text-muted-foreground">
-        No jobs found.
-      </div>
+      <EmptyState  title="No recent jobs"
+      description="Jobs you create will appear here."/>
     );
   }
 

@@ -14,10 +14,12 @@ import {
   Calendar,
   BadgeCheck,
 } from "lucide-react";
+import { useState } from "react";
 // import { JobStatus } from "@prisma/client";
 
 export async function StatsCards() {
   const session = await auth();
+  // const [loading,setLoading] =useState(true);
 
   if (!session?.user?.id) {
     return null;

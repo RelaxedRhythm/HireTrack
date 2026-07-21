@@ -1,13 +1,25 @@
+import { Inbox } from "lucide-react";
+
 interface EmptyStateProps {
-  message?: string;
+  title: string;
+  description?: string;
 }
 
-export default function EmptyState({
-  message = "Nothing to display.",
+export function EmptyState({
+  title,
+  description,
 }: EmptyStateProps) {
   return (
-    <div className="flex items-center justify-center rounded-lg border border-dashed py-10 text-muted-foreground">
-      {message}
+    <div className="flex h-52 flex-col items-center justify-center rounded-lg border border-dashed">
+      <Inbox className="mb-3 h-10 w-10 text-muted-foreground" />
+
+      <h3 className="font-medium">{title}</h3>
+
+      {description && (
+        <p className="mt-1 text-sm text-muted-foreground">
+          {description}
+        </p>
+      )}
     </div>
   );
 }
