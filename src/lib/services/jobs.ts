@@ -1,3 +1,4 @@
+import { cookies } from "next/headers";
 import { JobInput } from "@/lib/validations/jobs";
 import { DeleteJobResponse, JobFilters, JobResponse, JobsResponse } from "@/types/job";
 
@@ -23,7 +24,15 @@ export async function getJobs(query: JobFilters = {}): Promise<JobsResponse> {
 }
 
 export async function getJob(id: string) :Promise<JobResponse>{
-  const res = await fetch(`/api/jobs/${id}`);
+
+  const cookieStore = await cookies();
+  const res = await fetch(`/api/jobs/${id}`, {
+      cache: "no-store",
+      headers: {
+        Cookie: cookieStore.toString(),
+      },
+    },);
+
 
   if (!res.ok) {
     throw new Error("Failed to fetch job");

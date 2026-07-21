@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/auth";
-import  prisma  from "@/lib/prisma";
+import prisma from "@/lib/prisma";
 import { CreateApplicationSchema } from "../../../../../lib/validations/applications";
 
 interface RouteParams {
@@ -9,18 +9,12 @@ interface RouteParams {
   }>;
 }
 
-export async function POST(
-  req: NextRequest,
-  { params }: RouteParams
-) {
+export async function POST(req: NextRequest, { params }: RouteParams) {
   try {
     const session = await auth();
 
     if (!session?.user?.id) {
-      return NextResponse.json(
-        { message: "Unauthorized" },
-        { status: 401 }
-      );
+      return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
     }
 
     const { id: jobId } = await params;
@@ -32,89 +26,82 @@ export async function POST(
     });
 
     if (!job) {
-      return NextResponse.json(
-        { message: "Job not found" },
-        { status: 404 }
-      );
+      return NextResponse.json({ message: "Job not found" }, { status: 404 });
     }
 
     const body = await req.json();
 
-    const validation =
-      CreateApplicationSchema.safeParse(body);
+    const validation = CreateApplicationSchema.safeParse(body);
 
     if (!validation.success) {
       return NextResponse.json(
         {
-          errors:
-            validation.error.flatten().fieldErrors,
+          errors: validation.error.flatten().fieldErrors,
         },
         {
           status: 400,
-        }
+        },
       );
     }
 
-    const {
-      name,
-      email,
-      phone,
-      resumeUrl,
-    } = validation.data;
+    const { name, email, phone, resumeUrl } = validation.data;
 
-    let candidate =
-      await prisma.candidate.findUnique({
-        where: {
-          email,
-        },
-      });
+    let candidate = await prisma.candidate.findUnique({
+      where: {
+        email,
+      },
+    });
 
     if (!candidate) {
-      candidate =
-        await prisma.candidate.create({
-          data: {
-            name,
-            email,
-            phone,
-            resumeUrl,
-          },
-        });
-    }
-
-    const existing =
-      await prisma.application.findUnique({
-        where: {
-          candidateId_jobId: {
-            candidateId: candidate.id,
-            jobId,
-          },
+      candidate = await prisma.candidate.create({
+        data: {
+          name,
+          email,
+          phone,
+          resumeUrl,
         },
       });
+    }
+
+    const existing = await prisma.application.findUnique({
+      where: {
+        candidateId_jobId: {
+          candidateId: candidate.id,
+          jobId,
+        },
+      },
+    });
 
     if (existing) {
       return NextResponse.json(
         {
-          message:
-            "Candidate has already applied for this job",
+          message: "Candidate has already applied for this job",
         },
         {
           status: 409,
-        }
+        },
       );
     }
 
-    const application =
-      await prisma.application.create({
-        data: {
-          candidateId: candidate.id,
-          jobId,
-        },
+    const application = await prisma.application.create({
+      data: {
+        candidateId: candidate.id,
+        jobId,
+      },
 
-        include: {
-          candidate: true,
-          job: true,
-        },
-      });
+      include: {
+        candidate: true,
+        job: true,
+      },
+    });
+
+    await prisma.activity.create({
+      data: {
+        message: `New application received for ${job.title}`,
+        type: "APPLICATION_RECEIVED",
+        createdById: job.createdById,
+      },
+    });
 
     return NextResponse.json(application, {
       status: 201,
@@ -128,27 +115,20 @@ export async function POST(
       },
       {
         status: 500,
-      }
+      },
     );
   }
 }
 
-
-export async function GET(
-  req: NextRequest,
-  { params }: RouteParams
-) {
+export async function GET(req: NextRequest, { params }: RouteParams) {
   try {
     const session = await auth();
 
     if (!session?.user?.id) {
-      return NextResponse.json(
-        { message: "Unauthorized" },
-        { status: 401 }
-      );
+      return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
     }
 
-    const { id : jobId } = await params;
+    const { id: jobId } = await params;
 
     const job = await prisma.job.findFirst({
       where: {
@@ -163,24 +143,23 @@ export async function GET(
         },
         {
           status: 404,
-        }
+        },
       );
     }
 
-    const applications =
-      await prisma.application.findMany({
-        where: {
-          jobId,
-        },
+    const applications = await prisma.application.findMany({
+      where: {
+        jobId,
+      },
 
-        include: {
-          candidate: true,
-        },
+      include: {
+        candidate: true,
+      },
 
-        orderBy: {
-          createdAt: "desc",
-        },
-      });
+      orderBy: {
+        createdAt: "desc",
+      },
+    });
 
     return NextResponse.json(applications);
   } catch (error) {
@@ -192,7 +171,7 @@ export async function GET(
       },
       {
         status: 500,
-      }
+      },
     );
   }
 }

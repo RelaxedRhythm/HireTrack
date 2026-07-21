@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { Prisma } from "@prisma/client";
 import { auth } from "@/auth";
 import  prisma  from "@/lib/prisma";
 import { CandidateSchema } from "@/lib/validations/candidates";
@@ -25,18 +26,23 @@ export async function GET(req: NextRequest, { params }: RouteParams) {
       );
     }
 
+    const where:Prisma.CandidateWhereInput={};
+
+    if(session.user.role==="RECRUITER"){
+      where.applications={
+        some: {
+          job: {
+            createdById: session.user.id,
+          },
+        },
+      }
+    }
+
     const { id } = await params;
 
     const candidate = await prisma.candidate.findFirst({
       where: {
         id,
-        applications: {
-          some: {
-            job: {
-              createdById: session.user.id,
-            },
-          },
-        },
       },
 
       include: {
@@ -92,16 +98,21 @@ export async function PATCH(req: NextRequest, { params }: RouteParams) {
 
     const { id } = await params;
 
+    const where:Prisma.CandidateWhereInput={};
+
+    if(session.user.role==="RECRUITER"){
+      where.applications={
+        some: {
+          job: {
+            createdById: session.user.id,
+          },
+        },
+      }
+    }
+
     const existingCandidate = await prisma.candidate.findFirst({
       where: {
         id,
-        applications: {
-          some: {
-            job: {
-              createdById: session.user.id,
-            },
-          },
-        },
       },
     });
 
@@ -178,18 +189,23 @@ export async function DELETE(req: NextRequest, { params }: RouteParams) {
       );
     }
 
+    const where:Prisma.CandidateWhereInput={};
+
+    if(session.user.role==="RECRUITER"){
+      where.applications={
+        some: {
+          job: {
+            createdById: session.user.id,
+          },
+        },
+      }
+    }
+
     const { id } = await params;
 
     const existingCandidate = await prisma.candidate.findFirst({
       where: {
         id,
-        applications: {
-          some: {
-            job: {
-              createdById: session.user.id,
-            },
-          },
-        },
       },
     });
 

@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
+import { Prisma } from "@prisma/client";
 import { auth } from "@/auth";
-import  prisma  from "@/lib/prisma";
+import prisma from "@/lib/prisma";
 import { UpdateApplicationSchema } from "@/lib/validations/applications";
 
 interface RouteParams {
@@ -9,37 +10,34 @@ interface RouteParams {
   }>;
 }
 
-export async function GET(
-  req: NextRequest,
-  { params }: RouteParams
-) {
+export async function GET(req: NextRequest, { params }: RouteParams) {
   try {
     const session = await auth();
 
     if (!session?.user?.id) {
-      return NextResponse.json(
-        { message: "Unauthorized" },
-        { status: 401 }
-      );
+      return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+    }
+
+    const where: Prisma.ApplicationWhereInput = {};
+
+    if (session.user.role === "RECRUITER") {
+      where.job = {
+        createdById: session.user.id,
+      };
     }
 
     const { id } = await params;
 
-    const application =
-      await prisma.application.findFirst({
-        where: {
-          id,
+    const application = await prisma.application.findFirst({
+      where: {
+        id,
+      },
 
-          job: {
-            createdById: session.user.id,
-          },
-        },
-
-        include: {
-          candidate: true,
-          job: true,
-        },
-      });
+      include: {
+        candidate: true,
+        job: true,
+      },
+    });
 
     if (!application) {
       return NextResponse.json(
@@ -48,7 +46,7 @@ export async function GET(
         },
         {
           status: 404,
-        }
+        },
       );
     }
 
@@ -62,37 +60,34 @@ export async function GET(
       },
       {
         status: 500,
-      }
+      },
     );
   }
 }
 
-export async function PATCH(
-  req: NextRequest,
-  { params }: RouteParams
-) {
+export async function PATCH(req: NextRequest, { params }: RouteParams) {
   try {
     const session = await auth();
 
     if (!session?.user?.id) {
-      return NextResponse.json(
-        { message: "Unauthorized" },
-        { status: 401 }
-      );
+      return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
     }
 
     const { id } = await params;
 
-    const application =
-      await prisma.application.findFirst({
-        where: {
-          id,
+    const where: Prisma.ApplicationWhereInput = {};
 
-          job: {
-            createdById: session.user.id,
-          },
-        },
-      });
+    if (session.user.role === "RECRUITER") {
+      where.job = {
+        createdById: session.user.id,
+      };
+    }
+
+    const application = await prisma.application.findFirst({
+      where: {
+        id,
+      },
+    });
 
     if (!application) {
       return NextResponse.json(
@@ -101,40 +96,37 @@ export async function PATCH(
         },
         {
           status: 404,
-        }
+        },
       );
     }
 
     const body = await req.json();
 
-    const validation =
-      UpdateApplicationSchema.safeParse(body);
+    const validation = UpdateApplicationSchema.safeParse(body);
 
     if (!validation.success) {
       return NextResponse.json(
         {
-          errors:
-            validation.error.flatten().fieldErrors,
+          errors: validation.error.flatten().fieldErrors,
         },
         {
           status: 400,
-        }
+        },
       );
     }
 
-    const updated =
-      await prisma.application.update({
-        where: {
-          id,
-        },
+    const updated = await prisma.application.update({
+      where: {
+        id,
+      },
 
-        data: validation.data,
+      data: validation.data,
 
-        include: {
-          candidate: true,
-          job: true,
-        },
-      });
+      include: {
+        candidate: true,
+        job: true,
+      },
+    });
 
     return NextResponse.json(updated);
   } catch (error) {
@@ -146,15 +138,12 @@ export async function PATCH(
       },
       {
         status: 500,
-      }
+      },
     );
   }
 }
 
-export async function DELETE(
-  req: NextRequest,
-  { params }: RouteParams
-) {
+export async function DELETE(req: NextRequest, { params }: RouteParams) {
   try {
     const session = await auth();
 
@@ -165,22 +154,25 @@ export async function DELETE(
         },
         {
           status: 401,
-        }
+        },
       );
     }
 
     const { id } = await params;
 
-    const application =
-      await prisma.application.findFirst({
-        where: {
-          id,
+    const where: Prisma.ApplicationWhereInput = {};
 
-          job: {
-            createdById: session.user.id,
-          },
-        },
-      });
+    if (session.user.role === "RECRUITER") {
+      where.job = {
+        createdById: session.user.id,
+      };
+    }
+
+    const application = await prisma.application.findFirst({
+      where: {
+        id,
+      },
+    });
 
     if (!application) {
       return NextResponse.json(
@@ -189,38 +181,36 @@ export async function DELETE(
         },
         {
           status: 404,
-        }
+        },
       );
     }
 
-   const deletedApplication = await prisma.$transaction(async (tx) => {
-  const application = await tx.application.delete({
-    where: {
-      id,
-    },
-  });
+    const deletedApplication = await prisma.$transaction(async (tx) => {
+      const application = await tx.application.delete({
+        where: {
+          id,
+        },
+      });
 
-  const remaining = await tx.application.count({
-    where: {
-      candidateId: application.candidateId,
-    },
-  });
+      const remaining = await tx.application.count({
+        where: {
+          candidateId: application.candidateId,
+        },
+      });
 
-  if (remaining === 0) {
-    await tx.candidate.delete({
-      where: {
-        id: application.candidateId,
-      },
+      if (remaining === 0) {
+        await tx.candidate.delete({
+          where: {
+            id: application.candidateId,
+          },
+        });
+      }
+
+      return application;
     });
-  }
-
-  return application;
-});
-
 
     return NextResponse.json({
-      message:
-        "Application deleted successfully",
+      message: "Application deleted successfully",
       application: deletedApplication,
     });
   } catch (error) {
@@ -232,7 +222,7 @@ export async function DELETE(
       },
       {
         status: 500,
-      }
+      },
     );
   }
 }

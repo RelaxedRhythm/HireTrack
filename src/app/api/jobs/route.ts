@@ -1,7 +1,7 @@
 import { Prisma, JobStatus, JobType } from "@prisma/client";
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/auth";
-import  prisma  from "@/lib/prisma";
+import prisma from "@/lib/prisma";
 import { JobSchema } from "@/lib/validations/jobs";
 
 export async function POST(req: NextRequest) {
@@ -28,6 +28,14 @@ export async function POST(req: NextRequest) {
     const job = await prisma.job.create({
       data: {
         ...validation.data,
+        createdById: session.user.id,
+      },
+    });
+
+    await prisma.activity.create({
+      data: {
+        message: `Created a new job: ${job.title}`,
+        type: "JOB_CREATED",
         createdById: session.user.id,
       },
     });
@@ -84,9 +92,9 @@ export async function GET(req: NextRequest) {
 
     const where: Prisma.JobWhereInput = {};
 
-    if(session.user.role==="RECRUITER"){
-    where.createdById=session.user.id;
-  }
+    if (session.user.role === "RECRUITER") {
+      where.createdById = session.user.id;
+    }
 
     if (search) {
       where.OR = [
@@ -150,12 +158,13 @@ export async function GET(req: NextRequest) {
     // ]);
 
     const jobs = await prisma.job.findMany({
-  where,include: {
-    applications: true,
-  },
-});
+      where,
+      include: {
+        applications: true,
+      },
+    });
 
-     console.log("after queries");
+    console.log("after queries");
     return NextResponse.json({
       jobs,
 

@@ -1,5 +1,3 @@
-import { cookies } from "next/headers";
-
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
@@ -10,7 +8,8 @@ import { Button } from "@/components/ui/button";
 import EditJobDialog from "../components/editJobDialog";
 import DeleteJobDialog from "../components/deleteJobDialog";
 
-import type { Job } from "@/types/job";
+import { getJob } from "@/lib/services/jobs";
+// import type { Job } from "@/types/job";
 
 interface JobDetailsPageProps {
   params: Promise<{
@@ -18,26 +17,26 @@ interface JobDetailsPageProps {
   }>;
 }
 
-async function getJob(id: string): Promise<Job | null> {
+// async function getJob(id: string): Promise<Job | null> {
 
-    const cookieStore = await cookies();
+//     const cookieStore = await cookies();
 
-  const response = await fetch(
-    `${process.env.NEXT_PUBLIC_APP_URL}/api/jobs/${id}`,
-    {
-      cache: "no-store",
-      headers: {
-        Cookie: cookieStore.toString(),
-      },
-    },
-  );
+//   const response = await fetch(
+//     `${process.env.NEXT_PUBLIC_APP_URL}/api/jobs/${id}`,
+//     {
+//       cache: "no-store",
+//       headers: {
+//         Cookie: cookieStore.toString(),
+//       },
+//     },
+//   );
 
-  if (!response.ok) {
-    return null;
-  }
+//   if (!response.ok) {
+//     return null;
+//   }
 
-  return response.json();
-}
+//   return response.json();
+// }
 
 export default async function JobDetailsPage({ params }: JobDetailsPageProps) {
   const { id } = await params;

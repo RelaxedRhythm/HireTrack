@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { Prisma } from "@prisma/client";
 import { auth } from "@/auth";
 import prisma from "@/lib/prisma";
 import { JobSchema } from "@/lib/validations/jobs";
@@ -24,10 +25,15 @@ export async function GET(req: NextRequest, { params }: RouteParams) {
       sessionUser: session.user.id,
     });
 
+    const where: Prisma.JobWhereInput = {};
+
+    if (session.user.role === "RECRUITER") {
+      where.createdById= session.user.id;
+      }
+
     const job = await prisma.job.findFirst({
       where: {
         id,
-        // createdById: session.user.id,
       },
       // include: {
       //   applications: {
@@ -66,10 +72,16 @@ export async function PATCH(req: NextRequest, { params }: RouteParams) {
 
     const { id } = await params;
 
+    const where: Prisma.JobWhereInput = {};
+
+    if (session.user.role === "RECRUITER") {
+      where.createdById= session.user.id;
+      }
+
+
     const existingJob = await prisma.job.findFirst({
       where: {
         id,
-        createdById: session.user.id,
       },
     });
 
@@ -99,6 +111,14 @@ export async function PATCH(req: NextRequest, { params }: RouteParams) {
       data: validation.data,
     });
 
+    await prisma.activity.create({
+      data: {
+        message: `Updated job "${existingJob.title}"`,
+        type: "JOB_UPDATED",
+        createdById: session.user.id,
+      },
+    });
+
     return NextResponse.json(updatedJob);
   } catch (error) {
     console.error(error);
@@ -121,10 +141,16 @@ export async function DELETE(req: NextRequest, { params }: RouteParams) {
 
     const { id } = await params;
 
+    const where: Prisma.JobWhereInput = {};
+
+    if (session.user.role === "RECRUITER") {
+      where.createdById= session.user.id;
+      }
+
+
     const existingJob = await prisma.job.findFirst({
       where: {
         id,
-        createdById: session.user.id,
       },
     });
 

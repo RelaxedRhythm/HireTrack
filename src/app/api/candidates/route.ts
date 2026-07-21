@@ -34,15 +34,20 @@ export async function GET(req: NextRequest) {
 
     const skip = (page - 1) * limit;
 
-    const where: Prisma.CandidateWhereInput = {
-      applications: {
+
+    // const 
+
+    const where: Prisma.CandidateWhereInput = {};
+
+    if(session.user.role==="RECRUITER"){
+      where.applications= {
         some: {
           job: {
             createdById: session.user.id,
           },
         },
-      },
-    };
+      };
+    }
 
     if (search) {
       where.OR = [

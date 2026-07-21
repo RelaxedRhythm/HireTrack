@@ -1,10 +1,12 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { getCandidates } from "@/lib/services/candidates";
 
 import type { Candidate } from "@/types/candidates";
 
 import CandidatesTable from "./candidateTable";
+import LoadingState from "@/app/components/shared/loadingState";
 
 interface CandidateListProps {
   refresh: number;
@@ -20,25 +22,15 @@ export default function CandidateList({
   setTotalPages,
 }: CandidateListProps) {
   const [candidates, setCandidates] = useState<Candidate[]>([]);
+  
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     async function fetchCandidates() {
-      setLoading(true);
-
       try {
-        const params = new URLSearchParams({
-          page: page.toString(),
-          search,
-        });
+        setLoading(true);
 
-        const res = await fetch(`/api/candidates?${params}`);
-
-        if (!res.ok) {
-          throw new Error("Failed to fetch candidates");
-        }
-
-        const data = await res.json();
+        const data = await getCandidates({ search, page });
 
         setCandidates(data.candidates);
         setTotalPages(data.totalPages);
@@ -48,21 +40,19 @@ export default function CandidateList({
         setLoading(false);
       }
     }
-
     fetchCandidates();
   }, [refresh, search, page, setTotalPages]);
+
+  console.log(candidates);
+  console.log(setTotalPages);
 
   if (loading) {
     return (
       <div className="py-8 text-center text-muted-foreground">
-        Loading candidates...
+        <LoadingState message="Loading candidates"/>
       </div>
     );
   }
 
-  return (
-    <CandidatesTable
-      candidates={candidates}
-    />
-  );
+  return <CandidatesTable candidates={candidates} />;
 }

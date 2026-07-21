@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState,useEffect } from "react";
 
 import SearchBar from "../../components/shared/searchBar";
 import CandidateList from "./components/candidateList";
@@ -10,7 +10,14 @@ export default function CandidatesPage() {
   const [refresh, setRefresh] = useState(0);
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(1);
+// const [debouncedSearch, setDebouncedSearch] = useState("");
+// useEffect(() => {
+//     const timer = setTimeout(() => {
+//       setDebouncedSearch(search);
+//     }, 400);
 
+//     return () => clearTimeout(timer);
+//   }, [search]);
   return (
     <div className="space-y-6">
       <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
