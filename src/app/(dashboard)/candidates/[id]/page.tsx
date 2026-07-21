@@ -2,6 +2,8 @@
 
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
 
 import CandidateProfile from "../components/candidateProfile";
 import CandidateApplicationsTable from "../components/candidateApplicationTable";
@@ -65,6 +67,16 @@ export default function CandidateDetailsPage() {
 
   return (
     <div className="space-y-6">
+      <div className="flex items-center justify-between">
+
+      <Button
+          variant="outline"
+          nativeButton={false}
+          render={<Link href="/candidates" />}
+          >
+          ← Back
+        </Button>
+      </div>
       <CandidateProfile candidate={candidate} />
 
       <CandidateApplicationsTable

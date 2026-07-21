@@ -53,7 +53,7 @@ export default async function JobDetailsPage({ params }: JobDetailsPageProps) {
         <Button
           variant="outline"
           nativeButton={false}
-          render={<Link href="/dashboard/jobs" />}
+          render={<Link href="/jobs" />}
         >
           ← Back
         </Button>

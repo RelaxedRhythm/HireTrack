@@ -94,10 +94,12 @@ export default function CandidatesTable({
 
               <TableCell className="text-right">
                 <Button
+                  // asChild
                   variant="outline"
                   size="sm"
                 >
-                  View
+                  <Link href={`/candidates/${candidate.id}`} >
+                  View </Link>
                 </Button>
               </TableCell>
             </TableRow>

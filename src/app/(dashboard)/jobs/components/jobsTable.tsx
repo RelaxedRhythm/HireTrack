@@ -13,6 +13,8 @@ import EditJobDialog from "./editJobDialog";
 import DeleteJobDialog from "./deleteJobDialog";
 import type { Job } from "@/types/job";
 
+import Link from "next/link";
+import { Button } from "@base-ui/react";
 
 interface JobsTableProps {
   jobs: Job[];
@@ -104,6 +106,12 @@ export default function JobsTable({
                 {job.status}
               </TableCell>
 
+              <TableCell>
+                <Button>
+
+                <Link href={`/jobs/${job.id}`}>View</Link>
+                </Button>
+              </TableCell>
 
               <TableCell className="text-right">
 

@@ -44,7 +44,6 @@ export default function CandidateList({
   }, [refresh, search, page, setTotalPages]);
 
   console.log(candidates);
-  console.log(setTotalPages);
 
   if (loading) {
     return (

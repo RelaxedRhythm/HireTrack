@@ -26,7 +26,7 @@ export async function getJobs(query: JobFilters = {}): Promise<JobsResponse> {
 export async function getJob(id: string) :Promise<JobResponse>{
 
   const cookieStore = await cookies();
-  const res = await fetch(`/api/jobs/${id}`, {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/jobs/${id}`, {
       cache: "no-store",
       headers: {
         Cookie: cookieStore.toString(),

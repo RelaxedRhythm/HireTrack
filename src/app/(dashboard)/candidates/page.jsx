@@ -5,11 +5,13 @@ import { useState,useEffect } from "react";
 import SearchBar from "../../components/shared/searchBar";
 import CandidateList from "./components/candidateList";
 import Pagination from "../../components/shared/pagination";
+import { Toast } from "@base-ui/react";
 
 export default function CandidatesPage() {
   const [refresh, setRefresh] = useState(0);
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
 // const [debouncedSearch, setDebouncedSearch] = useState("");
 // useEffect(() => {
 //     const timer = setTimeout(() => {
@@ -38,11 +40,13 @@ export default function CandidatesPage() {
         refresh={refresh}
         search={search}
         page={page}
+        setTotalPages={setTotalPages}
       />
 
       <Pagination
         page={page}
         onPageChange={setPage}
+        totalPages={totalPages}
       />
     </div>
   );
