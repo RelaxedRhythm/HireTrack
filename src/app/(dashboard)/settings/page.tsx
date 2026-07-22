@@ -31,16 +31,19 @@ export default function SettingsPage() {
     securityAlerts: true,
   });
 
-  const toggleNotif = (key) => {
+  const  toggleNotif = (
+  key: keyof typeof notifs
+) => {
     setNotifs(prev => ({ ...prev, [key]: !prev[key] }));
   };
 
-  const handleSave = (e) => {
-    e.preventDefault();
-    setSaveStatus(true);
-    setTimeout(() => setSaveStatus(false), 2500);
-  };
-
+ const handleSave = (
+  e: React.FormEvent<HTMLFormElement>
+) => {
+  e.preventDefault();
+  setSaveStatus(true);
+  setTimeout(() => setSaveStatus(false), 2500);
+};
   return (
     <div className="max-w-4xl space-y-6">
 
