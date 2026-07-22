@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 
 import type { Application } from "@/types/applications";
 
-// import ApplicationsTable from "./applicationTable";
 import ApplicationFeed from "./applicationFeed";
 import LoadingState from "@/app/components/shared/loadingState";
 import {EmptyState} from "@/app/components/shared/emptyState";

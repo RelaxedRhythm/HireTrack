@@ -3,7 +3,7 @@
 import { useQuery,keepPreviousData } from "@tanstack/react-query";
 import { getJobs } from "../../lib/services/jobs";
 import { jobKeys } from "./jobKeys";
-import { JobStatus, JobType } from "@prisma/client";
+import { JobStatus, JobType } from "@/lib/constants/jobs";
 
 interface UseJobsProps {
   page?: number;
