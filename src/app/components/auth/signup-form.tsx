@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { signup } from "@/actions/auth";
+import Link from "next/link";
 
 export function SignupForm() {
   const [loading, setLoading] = useState(false);
@@ -56,6 +57,7 @@ export function SignupForm() {
       >
         {loading ? "Creating..." : "Sign Up"}
       </button>
+      <p>Already have an account? <Link href={"/login"}>Sign-In</Link></p>
     </form>
   );
 }

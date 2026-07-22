@@ -41,7 +41,7 @@ export default function RootLayout({ children }) {
           >
             <div className="flex min-h-screen">
               {/* Sidebar */}
-              <Sidebar />
+              {/* <Sidebar /> */}
 
               {/* Main Content */}
               <div className="flex flex-1 flex-col">

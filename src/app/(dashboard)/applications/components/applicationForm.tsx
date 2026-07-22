@@ -13,6 +13,14 @@ export interface ApplicationData {
   status: ApplicationStatus;
   notes?: string | null;
   rating?: number | null;
+
+  candidate?: {
+    name: string;
+  };
+
+  job?: {
+    title: string;
+  };
 }
 
 interface Props {
@@ -50,7 +58,7 @@ export default function ApplicationForm({ initialData, onSuccess }: Props) {
       const response = await fetch(
         isEdit ? `/api/applications/${initialData?.id}` : "/api/applications",
         {
-          method: isEdit ? "PUT" : "POST",
+          method: isEdit ? "PATCH" : "POST",
 
           headers: {
             "Content-Type": "application/json",
@@ -82,19 +90,25 @@ export default function ApplicationForm({ initialData, onSuccess }: Props) {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
-      <Input
-        placeholder="Candidate ID"
-        value={candidateId}
-        disabled={isEdit}
-        onChange={(e) => setCandidateId(e.target.value)}
-      />
+      {isEdit ? (
+        <Input value={initialData?.candidate?.name ?? ""} disabled />
+      ) : (
+        <Input
+          placeholder="Candidate ID"
+          value={candidateId}
+          onChange={(e) => setCandidateId(e.target.value)}
+        />
+      )}
 
-      <Input
-        placeholder="Job ID"
-        value={jobId}
-        disabled={isEdit}
-        onChange={(e) => setJobId(e.target.value)}
-      />
+      {isEdit ? (
+        <Input value={initialData?.job?.title ?? ""} disabled />
+      ) : (
+        <Input
+          placeholder="Job ID"
+          value={jobId}
+          onChange={(e) => setJobId(e.target.value)}
+        />
+      )}
 
       <select
         className="border rounded-md p-2 w-full"

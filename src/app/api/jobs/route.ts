@@ -139,41 +139,41 @@ export async function GET(req: NextRequest) {
 
     const sortField = allowedSortFields.includes(sort) ? sort : "createdAt";
 
-    // const [jobs, total] = await Promise.all([
-    //   prisma.job.findMany({
-    //     where,
-    //     // include: {
-    //     //   applications: true,
-    //     // },
-    //     skip,
-    //     take: limit,
+    const [jobs, total] = await Promise.all([
+      prisma.job.findMany({
+        where,
+        // include: {
+        //   applications: true,
+        // },
+        skip,
+        take: limit,
 
-    //     orderBy: {
-    //       [sortField]: order,
-    //     },
-    //   }),
-    //   prisma.job.count({
-    //     where,
-    //   }),
-    // ]);
+        orderBy: {
+          [sortField]: order,
+        },
+      }),
+      prisma.job.count({
+        where,
+      }),
+    ]);
 
-    const jobs = await prisma.job.findMany({
-      where,
-      include: {
-        applications: true,
-      },
-    });
+    // const jobs = await prisma.job.findMany({
+    //   where,
+    //   include: {
+    //     applications: true,
+    //   },
+    // });
 
     console.log("after queries");
     return NextResponse.json({
       jobs,
 
-      // pagination: {
-      //   total,
-      //   page,
-      //   limit,
-      //   totalPages: Math.ceil(total / limit),
-      // },
+      pagination: {
+        total,
+        page,
+        limit,
+        totalPages: Math.ceil(total / limit),
+      },
     });
   } catch (error) {
     console.error("JOBS API ERROR:", JSON.stringify(error, null, 2));

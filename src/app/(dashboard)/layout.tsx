@@ -19,7 +19,11 @@ export default async function DashboardLayout({
       <div className="flex min-h-screen">
         <div className="flex flex-1 flex-col">
           <Navbar />
-          <main className="container mx-auto px-6 py-6">{children}</main>
+           <div className="flex min-h-screen">
+              {/* Sidebar */}
+              <Sidebar />
+              <main className="container mx-auto px-6 py-6">{children}</main>
+            </div>
         </div>
       </div>
     </div>

@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { login } from "@/actions/auth";
-
+import Link from "next/link";
 export function LoginForm() {
   const [loading, setLoading] = useState(false);
 
@@ -43,6 +43,7 @@ export function LoginForm() {
       >
         {loading ? "Signing In..." : "Login"}
       </button>
+      <p>Don`&apos`t have an account yet. <Link href={"/register"}>Register Now</Link></p>
     </form>
   );
 }

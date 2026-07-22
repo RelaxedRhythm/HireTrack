@@ -4,10 +4,10 @@ import { useEffect, useState } from "react";
 
 import type { Application } from "@/types/applications";
 
-import ApplicationsTable from "./applicationTable";
-
+// import ApplicationsTable from "./applicationTable";
+import ApplicationFeed from "./applicationFeed";
 import LoadingState from "@/app/components/shared/loadingState";
-import EmptyState from "@/app/components/shared/emptyState";
+import {EmptyState} from "@/app/components/shared/emptyState";
 import ErrorState from "@/app/components/shared/errorState";
 
 interface ApplicationListProps {
@@ -76,8 +76,8 @@ export default function ApplicationList({
   }
 
   if (applications.length === 0) {
-    return <EmptyState message="No applications found." />;
+    return <EmptyState title="No Application Found" description="Invite more applications" />;
   }
 
-  return <ApplicationsTable applications={applications}  setRefresh={setRefresh} />;
+  return <ApplicationFeed applications={applications}  setRefresh={setRefresh} />;
 }

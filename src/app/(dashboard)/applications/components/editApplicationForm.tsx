@@ -42,6 +42,13 @@ export default function EditApplicationDialog({
             status: application.status,
             notes: application.notes,
             rating: application.rating,
+            candidate: {
+              name: application.candidate.name,
+            },
+
+            job: {
+              title: application.job.title,
+            },
           }}
           onSuccess={() => {
             setRefresh((prev) => prev + 1);

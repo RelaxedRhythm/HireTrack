@@ -30,7 +30,7 @@ export default function Filters({
     <div className="flex flex-wrap gap-3">
 
 
-      <Select
+      <Select 
         value={status}
         onValueChange={(value) => onStatusChange((value ?? "all") as JobStatus | "all")}
       >
@@ -40,30 +40,12 @@ export default function Filters({
         </SelectTrigger>
 
 
-        <SelectContent>
+        <SelectContent className="bg-background/100 backdrop-blur-none border shadow-xl z-50">
 
           <SelectItem value="all">
             All Status
           </SelectItem>
- <SelectItem value={JobStatus.APPLIED}>
-            Applied
-          </SelectItem>
-
-
-          <SelectItem value={JobStatus.INTERVIEW}>
-            Interview
-          </SelectItem>
-
-
-          <SelectItem value={JobStatus.OFFER}>
-            Offer
-          </SelectItem>
-
-
-          <SelectItem value={JobStatus.REJECTED}>
-            Rejected
-          </SelectItem>
-
+ 
           <SelectItem value={JobStatus.OPEN}>
             Open
           </SelectItem>

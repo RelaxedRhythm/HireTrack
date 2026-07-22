@@ -44,7 +44,7 @@ export default function JobsTable({
   return (
     <div className="rounded-md border">
 
-      <Table>
+      <Table className="relative z-0">
 
         <TableHeader>
 

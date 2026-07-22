@@ -35,13 +35,13 @@ export async function GET(req: NextRequest, { params }: RouteParams) {
       where: {
         id,
       },
-      // include: {
-      //   applications: {
-      //     include: {
-      //       candidate: true,
-      //     },
-      //   },
-      // },
+      include: {
+        applications: {
+          include: {
+            candidate: true,
+          },
+        },
+      },
     });
 
     console.log(job);
