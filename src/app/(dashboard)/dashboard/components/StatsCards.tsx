@@ -63,17 +63,20 @@ export async function StatsCards() {
         const Icon = stat.icon;
 
         return (
-          <Card key={stat.title}>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">
+          <Card 
+            key={stat.title} 
+            className="transition-all duration-300 hover:border-border/80 hover:shadow-xs border-border/40 bg-background/60"
+          >
+            <CardHeader className="flex flex-row items-center justify-between pb-1 pt-4 px-4.5">
+              <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground/60">
                 {stat.title}
-              </CardTitle>
+              </span>
 
-              <Icon className="h-5 w-5 text-muted-foreground" />
+              <Icon className="h-4 w-4 text-muted-foreground/70" />
             </CardHeader>
 
-            <CardContent>
-              <div className="text-3xl font-bold">
+            <CardContent className="pb-4 pt-0 px-4.5">
+              <div className="text-2xl font-bold tracking-tight">
                 {stat.value}
               </div>
             </CardContent>

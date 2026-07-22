@@ -7,6 +7,7 @@ import {
   Funnel,
   Tooltip,
   LabelList,
+  Cell,
 } from "recharts";
 
 import {
@@ -22,6 +23,26 @@ interface FunnelData {
   count: number;
 }
 
+const FUNNEL_COLORS = [
+  "var(--color-slate-800, #1e293b)",
+  "var(--color-slate-700, #334155)",
+  "var(--color-slate-600, #475569)",
+  "var(--color-slate-500, #64748b)",
+  "var(--color-slate-400, #94a3b8)",
+];
+
+const CustomTooltip = ({ active, payload }: any) => {
+  if (active && payload && payload.length) {
+    return (
+      <div className="rounded-lg border border-border/40 bg-background/95 px-3 py-1.5 shadow-sm text-xs font-medium">
+        <p className="text-muted-foreground">{payload[0].payload.stage}</p>
+        <p className="text-foreground mt-0.5 font-bold">{payload[0].value} Candidates</p>
+      </div>
+    );
+  }
+  return null;
+};
+
 export function HiringFunnelChart() {
   const [data, setData] = useState<FunnelData[]>([]);
   const [loading, setLoading] = useState(true);
@@ -31,7 +52,6 @@ export function HiringFunnelChart() {
       try {
         const res = await fetch("/api/dashboard/funnel");
         const result = await res.json();
-        // setData(result);
         setData([
           { stage: "Applied", count: result.applied },
           { stage: "Screening", count: result.screening },
@@ -50,31 +70,36 @@ export function HiringFunnelChart() {
   }, []);
 
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>Hiring Funnel</CardTitle>
-        <CardDescription>
+    <Card className="border-border/40 bg-background/60">
+      <CardHeader className="pb-4">
+        <CardTitle className="text-base font-semibold tracking-tight">Hiring Funnel</CardTitle>
+        <CardDescription className="text-xs">
           Candidate progression through hiring stages
         </CardDescription>
       </CardHeader>
 
-      <CardContent className="h-[350px]">
+      <CardContent className="h-[300px]">
         {loading ? (
-          <div className="flex h-full items-center justify-center text-sm text-muted-foreground">
+          <div className="flex h-full items-center justify-center text-xs text-muted-foreground">
             Loading...
           </div>
         ) : (
           <ResponsiveContainer width="100%" height="100%">
             <FunnelChart>
-              <Tooltip />
+              <Tooltip content={<CustomTooltip />} />
 
               <Funnel dataKey="count" data={data} isAnimationActive>
                 <LabelList
                   position="right"
                   dataKey="stage"
-                  fill="#374151"
+                  fill="var(--color-muted-foreground, #64748b)"
                   stroke="none"
+                  fontSize={11}
+                  fontWeight={500}
                 />
+                {data.map((_, index) => (
+                  <Cell key={index} fill={FUNNEL_COLORS[index % FUNNEL_COLORS.length]} opacity={0.9} />
+                ))}
               </Funnel>
             </FunnelChart>
           </ResponsiveContainer>

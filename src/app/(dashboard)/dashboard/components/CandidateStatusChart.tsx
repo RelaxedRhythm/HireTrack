@@ -26,13 +26,25 @@ interface StatusData {
 }
 
 const COLORS = [
-  "#3b82f6",
-  "#f59e0b",
-  "#8b5cf6",
-  "#10b981",
-  "#22c55e",
-  "#ef4444",
+  "#64748b", // APPLIED
+  "#f59e0b", // SCREENING
+  "#8b5cf6", // INTERVIEW
+  "#3b82f6", // OFFER
+  "#10b981", // HIRED
+  "#ef4444", // REJECTED
 ];
+
+const CustomTooltip = ({ active, payload }: any) => {
+  if (active && payload && payload.length) {
+    return (
+      <div className="rounded-lg border border-border/40 bg-background/95 px-3 py-1.5 shadow-sm text-xs font-medium">
+        <p className="text-muted-foreground">{payload[0].name}</p>
+        <p className="text-foreground mt-0.5 font-bold">{payload[0].value} Candidates</p>
+      </div>
+    );
+  }
+  return null;
+};
 
 export function CandidateStatusChart() {
   const [data, setData] = useState<StatusData[]>([]);
@@ -51,7 +63,6 @@ export function CandidateStatusChart() {
           { status: "HIRED", count: result.hired },
           { status: "REJECTED", count: result.rejected },
         ]);
-        // setData(result);
       } catch (error) {
         console.error(error);
       } finally {
@@ -63,15 +74,15 @@ export function CandidateStatusChart() {
   }, []);
 
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>Candidate Status</CardTitle>
-        <CardDescription>
+    <Card className="border-border/40 bg-background/60">
+      <CardHeader className="pb-4">
+        <CardTitle className="text-base font-semibold tracking-tight">Candidate Status</CardTitle>
+        <CardDescription className="text-xs">
           Distribution of applications by status
         </CardDescription>
       </CardHeader>
 
-      <CardContent className="h-[350px]">
+      <CardContent className="h-[300px]">
         {loading ? (
            <ChartSkeleton/>
         ) : (
@@ -82,19 +93,28 @@ export function CandidateStatusChart() {
                 dataKey="count"
                 nameKey="status"
                 cx="50%"
-                cy="50%"
-                outerRadius={110}
+                cy="40%"
+                innerRadius={65}
+                outerRadius={90}
+                paddingAngle={3}
                 label={({ status, percent }) =>
-                  `${status} ${(percent! * 100).toFixed(0)}%`
+                  percent > 0.05 ? `${status.charAt(0) + status.slice(1).toLowerCase()} ${(percent! * 100).toFixed(0)}%` : ""
                 }
+                labelLine={false}
               >
                 {data.map((_, index) => (
-                  <Cell key={index} fill={COLORS[index % COLORS.length]} />
+                  <Cell key={index} fill={COLORS[index % COLORS.length]} stroke="var(--background)" strokeWidth={2} />
                 ))}
               </Pie>
 
-              <Tooltip />
-              <Legend />
+              <Tooltip content={<CustomTooltip />} />
+              <Legend 
+                verticalAlign="bottom" 
+                height={36} 
+                iconType="circle" 
+                iconSize={8}
+                formatter={(value) => <span className="text-xs text-muted-foreground font-medium">{value.charAt(0) + value.slice(1).toLowerCase()}</span>}
+              />
             </PieChart>
           </ResponsiveContainer>
         )}

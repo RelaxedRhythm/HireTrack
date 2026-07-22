@@ -44,39 +44,41 @@ export function RecentJobs() {
   }, []);
 
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>Recent Jobs</CardTitle>
-        <CardDescription>
+    <Card className="border-border/40 bg-background/60 shadow-none">
+      <CardHeader className="pb-3.5">
+        <CardTitle className="text-base font-semibold tracking-tight">Recent Jobs</CardTitle>
+        <CardDescription className="text-xs">
           Latest jobs created
         </CardDescription>
       </CardHeader>
 
       <CardContent>
         {loading ? (
-          <ListSkeleton/>
+          <ListSkeleton />
         ) : jobs.length === 0 ? (
-          <EmptyState title="No Recent Jobs " description="Add new Jobs"/>
+          <EmptyState title="No Recent Jobs" description="Add new Jobs" />
         ) : (
-          <div className="space-y-4">
+          <div className="space-y-3.5">
             {jobs.map((job) => (
               <div
                 key={job.id}
-                className="flex items-center justify-between border-b pb-3 last:border-none"
+                className="group flex items-center justify-between border-b border-border/30 pb-3 last:border-none last:pb-0"
               >
-                <div className="flex items-start gap-3">
-                  <Briefcase className="mt-1 h-5 w-5 text-muted-foreground" />
+                <div className="flex items-start gap-3 transition-transform duration-200 group-hover:translate-x-1">
+                  <div className="rounded-md border border-border/40 bg-secondary/30 p-1.5 mt-0.5 text-muted-foreground group-hover:text-primary group-hover:bg-secondary/60 transition-colors">
+                    <Briefcase className="h-3.5 w-3.5" />
+                  </div>
 
                   <div>
-                    <h4 className="font-medium">
+                    <h4 className="text-sm font-semibold tracking-tight text-foreground">
                       {job.title}
                     </h4>
 
-                    <p className="text-sm text-muted-foreground">
+                    <p className="text-xs text-muted-foreground mt-0.5">
                       {job.company}
                     </p>
 
-                    <p className="text-xs text-muted-foreground">
+                    <p className="text-[10px] text-muted-foreground/60 mt-0.5">
                       {new Date(job.createdAt).toLocaleDateString()}
                     </p>
                   </div>
@@ -87,9 +89,10 @@ export function RecentJobs() {
                     job.status === "OPEN"
                       ? "default"
                       : job.status === "DRAFT"
-                      ? "secondary"
-                      : "destructive"
+                        ? "secondary"
+                        : "destructive"
                   }
+                  className="text-[10px] h-4.5 px-1.5 uppercase font-semibold tracking-wider"
                 >
                   {job.status}
                 </Badge>

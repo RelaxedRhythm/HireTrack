@@ -25,6 +25,18 @@ interface ChartData {
   applications: number;
 }
 
+const CustomTooltip = ({ active, payload }: any) => {
+  if (active && payload && payload.length) {
+    return (
+      <div className="rounded-lg border border-border/40 bg-background/95 px-3 py-1.5 shadow-sm text-xs font-medium">
+        <p className="text-muted-foreground">{payload[0].payload.month}</p>
+        <p className="text-foreground mt-0.5 font-bold">{payload[0].value} Applications</p>
+      </div>
+    );
+  }
+  return null;
+};
+
 export function ApplicationOverTimeChart() {
   const [data, setData] = useState<ChartData[]>([]);
   const [loading, setLoading] = useState(true);
@@ -42,7 +54,6 @@ export function ApplicationOverTimeChart() {
             applications: item.count,
           })),
         );
-        //   setData(result);
       } catch (err) {
         console.error(err);
       } finally {
@@ -54,32 +65,47 @@ export function ApplicationOverTimeChart() {
   }, []);
 
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>Applications Over Time</CardTitle>
-        <CardDescription>Monthly application trend</CardDescription>
+    <Card className="border-border/40 bg-background/60">
+      <CardHeader className="pb-4">
+        <CardTitle className="text-base font-semibold tracking-tight">Applications Over Time</CardTitle>
+        <CardDescription className="text-xs">Monthly application trend</CardDescription>
       </CardHeader>
 
-      <CardContent className="h-[380px]">
+      <CardContent className="h-[300px]">
         {loading ? (
           <ChartSkeleton/>
         ) : (
           <ResponsiveContainer width="100%" height="100%">
-            <LineChart data={data}>
-              <CartesianGrid strokeDasharray="3 3" />
+            <LineChart data={data} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
+              <CartesianGrid stroke="var(--border)" strokeDasharray="3 3" vertical={false} opacity={0.4} />
 
-              <XAxis dataKey="month" />
+              <XAxis 
+                dataKey="month" 
+                tickLine={false} 
+                axisLine={false} 
+                fontSize={11} 
+                tickMargin={8} 
+                stroke="var(--color-muted-foreground, #64748b)" 
+              />
 
-              <YAxis allowDecimals={false} />
+              <YAxis 
+                allowDecimals={false} 
+                tickLine={false} 
+                axisLine={false} 
+                fontSize={11} 
+                tickMargin={8} 
+                stroke="var(--color-muted-foreground, #64748b)" 
+              />
 
-              <Tooltip />
+              <Tooltip content={<CustomTooltip />} />
 
               <Line
                 type="monotone"
                 dataKey="applications"
-                strokeWidth={3}
-                dot={{ r: 4 }}
-                activeDot={{ r: 7 }}
+                stroke="#6366f1"
+                strokeWidth={2}
+                dot={{ r: 3, fill: "#6366f1", strokeWidth: 0 }}
+                activeDot={{ r: 5, strokeWidth: 0 }}
               />
             </LineChart>
           </ResponsiveContainer>

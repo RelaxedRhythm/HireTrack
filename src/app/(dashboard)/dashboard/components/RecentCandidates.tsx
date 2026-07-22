@@ -47,61 +47,75 @@ export function RecentCandidates() {
   }, []);
 
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>Recent Candidates</CardTitle>
-        <CardDescription>
+    <Card className="border-border/40 bg-background/60 shadow-none">
+      <CardHeader className="pb-3.5">
+        <CardTitle className="text-base font-semibold tracking-tight">Recent Candidates</CardTitle>
+        <CardDescription className="text-xs">
           Latest candidate applications
         </CardDescription>
       </CardHeader>
 
       <CardContent>
         {loading ? (
-          <ListSkeleton/>
+          <ListSkeleton />
         ) : candidates.length === 0 ? (
-          <EmptyState title="No recent candidates" description=""/>
+          <EmptyState title="No recent candidates" description="" />
         ) : (
-          <div className="space-y-4">
-            {candidates.map((candidate) => (
-              <div
-                key={candidate.id}
-                className="flex items-center justify-between border-b pb-3 last:border-none"
-              >
-                <div className="flex items-start gap-3">
-                  <User className="mt-1 h-5 w-5 text-muted-foreground" />
+          <div className="space-y-3.5">
+            {candidates.map((candidate) => {
+              const initials = candidate.name
+                ? candidate.name
+                  .split(" ")
+                  .map((n) => n[0])
+                  .join("")
+                  .toUpperCase()
+                  .slice(0, 2)
+                : "C";
 
-                  <div>
-                    <h4 className="font-medium">
-                      {candidate.name}
-                    </h4>
-
-                    <p className="text-sm text-muted-foreground">
-                      {candidate.email}
-                    </p>
-
-                    <p className="text-xs text-muted-foreground">
-                      Applied for {candidate.job.title}
-                    </p>
-
-                    <p className="text-xs text-muted-foreground">
-                      {new Date(candidate.createdAt).toLocaleDateString()}
-                    </p>
-                  </div>
-                </div>
-
-                <Badge
-                  variant={
-                    candidate.status === "HIRED"
-                      ? "default"
-                      : candidate.status === "REJECTED"
-                      ? "destructive"
-                      : "secondary"
-                  }
+              return (
+                <div
+                  key={candidate.id}
+                  className="group flex items-center justify-between border-b border-border/30 pb-3 last:border-none last:pb-0"
                 >
-                  {candidate.status}
-                </Badge>
-              </div>
-            ))}
+                  <div className="flex items-start gap-3 transition-transform duration-200 group-hover:translate-x-1">
+                    <div className="flex h-7 w-7 items-center justify-center rounded-full bg-secondary text-[10px] font-semibold text-secondary-foreground border border-border/50 mt-0.5">
+                      {initials}
+                    </div>
+
+                    <div>
+                      <h4 className="text-sm font-semibold tracking-tight text-foreground">
+                        {candidate.name}
+                      </h4>
+
+                      <p className="text-xs text-muted-foreground mt-0.5">
+                        {candidate.email}
+                      </p>
+
+                      <p className="text-[10px] text-muted-foreground mt-0.5 font-medium">
+                        Applied for {candidate.job.title}
+                      </p>
+
+                      <p className="text-[10px] text-muted-foreground/60 mt-0.5">
+                        {new Date(candidate.createdAt).toLocaleDateString()}
+                      </p>
+                    </div>
+                  </div>
+
+                  <Badge
+                    variant={
+                      candidate.status === "HIRED"
+                        ? "default"
+                        : candidate.status === "REJECTED"
+                          ? "destructive"
+                          : "secondary"
+                    }
+                    className="text-[10px] h-4.5 px-1.5 uppercase font-semibold tracking-wider"
+                  >
+                    {candidate.status}
+                  </Badge>
+                </div>
+              );
+            })}
           </div>
         )}
       </CardContent>

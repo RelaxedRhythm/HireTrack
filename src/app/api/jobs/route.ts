@@ -142,9 +142,9 @@ export async function GET(req: NextRequest) {
     const [jobs, total] = await Promise.all([
       prisma.job.findMany({
         where,
-        // include: {
-        //   applications: true,
-        // },
+        include: {
+          applications: true,
+        },
         skip,
         take: limit,
 
