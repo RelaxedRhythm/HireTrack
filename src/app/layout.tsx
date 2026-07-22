@@ -1,4 +1,5 @@
-// import {Inter} from "next/font/google"
+import type { ReactNode } from "react";
+
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "./components/themeProvider";
@@ -21,10 +22,13 @@ const geistMono = Geist_Mono({
 
 export const metadata = {
   title: "HireTrack",
-  description: "Improve your hiring experiance",
+  description: "Improve your hiring experience",
 };
 
-export default function RootLayout({ children }) {
+export default function RootLayout({ children ,
+}: {
+  children: ReactNode;
+}) {
   return (
     <html
       lang="en"
