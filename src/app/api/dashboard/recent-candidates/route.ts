@@ -26,7 +26,7 @@ export async function GET() {
         createdAt: "desc",
       },
 
-      take: 5,
+      take: 4,
 
       include: {
         applications: {

@@ -22,7 +22,7 @@ export default function DashboardPage() {
       <div className="grid gap-6 lg:grid-cols-3">
         <RecentJobs />
         <RecentCandidates />
-        {/* <ActivityFeed /> */}
+        <ActivityFeed />
       </div>
 
       <QuickActions />

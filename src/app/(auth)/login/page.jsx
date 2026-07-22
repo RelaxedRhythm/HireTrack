@@ -1,8 +1,6 @@
 import { LoginForm } from "@/app/components/auth/login-form";
 import {auth} from "../../../auth"
 import {redirect} from "next/navigation";
-import Link from "next/link";
-
 
 export default async function LoginPage() {
     const session=await auth();

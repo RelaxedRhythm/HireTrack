@@ -45,7 +45,7 @@ export function ActivityFeed() {
       try {
         const res = await fetch("/api/dashboard/activities");
         const data = await res.json();
-        setActivities(data);
+        setActivities(data.activities ?? []);
       } catch (err) {
         console.error(err);
       } finally {

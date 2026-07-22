@@ -17,6 +17,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { ChartSkeleton } from "./skeletons/chartSkeleton";
 
 interface FunnelData {
   stage: string;
@@ -94,9 +95,7 @@ export function HiringFunnelChart() {
 
       <CardContent className="h-75">
         {loading ? (
-          <div className="flex h-full items-center justify-center text-xs text-muted-foreground">
-            Loading...
-          </div>
+          <ChartSkeleton/>
         ) : (
           <ResponsiveContainer width="100%" height="100%">
             <FunnelChart>
