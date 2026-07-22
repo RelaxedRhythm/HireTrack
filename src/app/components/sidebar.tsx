@@ -23,7 +23,7 @@ export function Sidebar() {
   const pathname = usePathname();
 
   return (
-    <aside className="w-60 border-r border-border/40 bg-background/50 backdrop-blur-xs flex flex-col justify-between py-6 shrink-0">
+    <aside className="w-40 border-r border-border/40 bg-background/50 backdrop-blur-xs flex flex-col justify-between py-6 shrink-0">
       <nav className="flex flex-col gap-1 px-3">
         {menuItems.map((item) => {
           const Icon = item.icon;

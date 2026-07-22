@@ -1,8 +1,9 @@
 import { BriefcaseBusiness } from "lucide-react";
-
+// import Link from "next/link"; 
 import { auth } from "../../auth";
 import LogoutButton from "./logout-btns";
 import ThemeSwitcher from "./themeSwitcher";
+import Link from "next/link";
 
 export default async function Navbar() {
   const session = await auth();
@@ -34,32 +35,45 @@ export default async function Navbar() {
             </p>
           </div>
         </div>
+        <div className="flex items-center gap-3">
+        <ThemeSwitcher />
+
 
         {/* Right Section */}
-        <div className="flex items-center gap-3">
-          <div className="hidden h-8 w-px bg-border md:block" />
+        {session ? (
+          <>
+      <div className="hidden h-8 w-px bg-border md:block" />
 
-          <div className="flex items-center gap-3 rounded-full border bg-card/50 px-3 py-1.5">
-            <div className="flex h-9 w-9 items-center justify-center rounded-full bg-gradient-to-br from-primary to-primary/70 text-sm font-semibold text-primary-foreground">
-              {initials}
-            </div>
+      <div className="flex items-center gap-3 rounded-full border bg-card/50 px-3 py-1.5">
+        <div className="flex h-9 w-9 items-center justify-center rounded-full bg-gradient-to-br from-primary to-primary/70 text-sm font-semibold text-primary-foreground">
+          {initials}
+        </div>
 
-            <div className="hidden sm:flex sm:flex-col">
-              <span className="text-sm font-medium leading-none">
-                {session?.user?.name}
-              </span>
-              <span className="text-xs text-muted-foreground">
-                Recruiter
-              </span>
-            </div>
-          </div>
+        <div className="hidden sm:flex sm:flex-col">
+          <span className="text-sm font-medium leading-none">
+            {session.user?.name}
+          </span>
 
-          <div className="flex items-center gap-1 rounded-full border bg-card/50 p-1">
-            <ThemeSwitcher />
-            <LogoutButton />
-          </div>
+          <span className="text-xs text-muted-foreground">
+            Recruiter
+          </span>
         </div>
       </div>
+
+      <LogoutButton />
+    </>
+  ) : (
+    
+    <Link
+      href="/login"
+      className="rounded-lg bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition hover:opacity-90"
+      >
+      Login
+    </Link>
+
+  )}
+      </div>
+</div>
     </header>
   );
 }

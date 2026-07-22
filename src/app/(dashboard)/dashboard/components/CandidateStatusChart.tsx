@@ -55,14 +55,8 @@ export function CandidateStatusChart() {
       try {
         const res = await fetch("/api/dashboard/candidate-status");
         const result = await res.json();
-        setData([
-          { status: "APPLIED", count: result.applied },
-          { status: "SCREENING", count: result.screening },
-          { status: "INTERVIEW", count: result.interview },
-          { status: "OFFER", count: result.offer },
-          { status: "HIRED", count: result.hired },
-          { status: "REJECTED", count: result.rejected },
-        ]);
+        setData(result);
+        // console.log(data);
       } catch (error) {
         console.error(error);
       } finally {
@@ -93,7 +87,7 @@ export function CandidateStatusChart() {
                 dataKey="count"
                 nameKey="status"
                 cx="50%"
-                cy="40%"
+                cy="48%"
                 innerRadius={65}
                 outerRadius={90}
                 paddingAngle={3}

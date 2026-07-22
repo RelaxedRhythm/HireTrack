@@ -42,5 +42,6 @@ export async function GET() {
     },
   });
 
+  // console.log(candidates[0].applications);
   return NextResponse.json(candidates);
 }

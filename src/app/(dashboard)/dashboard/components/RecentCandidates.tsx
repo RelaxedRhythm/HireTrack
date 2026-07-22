@@ -21,9 +21,11 @@ interface Candidate {
   email: string;
   status: string;
   createdAt: string;
-  job: {
-    title: string;
-  };
+  applications:{
+    job: {
+      title: string;
+    };
+  }
 }
 
 export function RecentCandidates() {
@@ -92,7 +94,7 @@ export function RecentCandidates() {
                       </p>
 
                       <p className="text-[10px] text-muted-foreground mt-0.5 font-medium">
-                        Applied for {candidate.job.title}
+                        Applied for {candidate.applications?.job?.title ?? "unknown"}
                       </p>
 
                       <p className="text-[10px] text-muted-foreground/60 mt-0.5">

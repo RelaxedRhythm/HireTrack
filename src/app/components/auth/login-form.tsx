@@ -17,33 +17,47 @@ export function LoginForm() {
   return (
     <form
       action={handleSubmit}
-      className="w-full max-w-md rounded-lg border p-8 space-y-4"
+      className="w-full max-w-md space-y-6 rounded-2xl border border-border bg-card p-8 shadow-sm"
     >
-      <h1 className="text-3xl font-bold text-center">
-        Login
-      </h1>
+       <div className="space-y-2 text-center">
+    <h1 className="text-3xl font-bold tracking-tight">
+      Welcome Back
+    </h1>
+    <p className="text-sm text-muted-foreground">
+      Sign in to continue to HireTrack.
+    </p>
+  </div>
+  <div className="space-y-4">
 
       <input
         name="email"
         type="email"
         placeholder="Email"
+        required
+        autoComplete="email"
         className="w-full rounded border p-3"
-      />
+        />
 
       <input
         name="password"
         type="password"
         placeholder="Password"
+        required
+        autoComplete="current-password"
         className="w-full rounded border p-3"
-      />
+        />
+</div>
 
       <button
         disabled={loading}
-        className="w-full rounded bg-black py-3 text-white"
-      >
+        className="h-11 w-full rounded-lg bg-primary font-medium text-primary-foreground transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50"
+        >
         {loading ? "Signing In..." : "Login"}
       </button>
-      <p>Don`&apos`t have an account yet. <Link href={"/register"}>Register Now</Link></p>
+      <p className="text-center text-sm text-muted-foreground">
+        Don&apos;t have an account yet.{" "}
+        <Link href={"/register"} className="font-medium text-primary hover:underline" >Register Now</Link>
+      </p>
     </form>
   );
 }

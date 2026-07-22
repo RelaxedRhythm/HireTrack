@@ -36,7 +36,9 @@ const CustomTooltip = ({ active, payload }: any) => {
     return (
       <div className="rounded-lg border border-border/40 bg-background/95 px-3 py-1.5 shadow-sm text-xs font-medium">
         <p className="text-muted-foreground">{payload[0].payload.stage}</p>
-        <p className="text-foreground mt-0.5 font-bold">{payload[0].value} Candidates</p>
+        <p className="text-foreground mt-0.5 font-bold">
+          {payload[0].value} Candidates
+        </p>
       </div>
     );
   }
@@ -52,13 +54,12 @@ export function HiringFunnelChart() {
       try {
         const res = await fetch("/api/dashboard/funnel");
         const result = await res.json();
-        setData([
-          { stage: "Applied", count: result.applied },
-          { stage: "Screening", count: result.screening },
-          { stage: "Interview", count: result.interview },
-          { stage: "Offer", count: result.offer },
-          { stage: "Hired", count: result.hired },
-        ]);
+        setData(
+          result.map((item: FunnelData) => ({
+            stage: item.stage,
+            count: item.count,
+          })),
+        );
       } catch (err) {
         console.error(err);
       } finally {
@@ -72,7 +73,9 @@ export function HiringFunnelChart() {
   return (
     <Card className="border-border/40 bg-background/60">
       <CardHeader className="pb-4">
-        <CardTitle className="text-base font-semibold tracking-tight">Hiring Funnel</CardTitle>
+        <CardTitle className="text-base font-semibold tracking-tight">
+          Hiring Funnel
+        </CardTitle>
         <CardDescription className="text-xs">
           Candidate progression through hiring stages
         </CardDescription>
@@ -98,7 +101,11 @@ export function HiringFunnelChart() {
                   fontWeight={500}
                 />
                 {data.map((_, index) => (
-                  <Cell key={index} fill={FUNNEL_COLORS[index % FUNNEL_COLORS.length]} opacity={0.9} />
+                  <Cell
+                    key={index}
+                    fill={FUNNEL_COLORS[index % FUNNEL_COLORS.length]}
+                    opacity={0.9}
+                  />
                 ))}
               </Funnel>
             </FunnelChart>

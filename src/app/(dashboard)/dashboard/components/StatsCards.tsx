@@ -26,9 +26,7 @@ export async function StatsCards() {
   }
 
   const res = await getStats();
-  console.log(res);
   const data = await res.json();
-  console.log(data);
   const stats = [
     {
       title: "Total Jobs",

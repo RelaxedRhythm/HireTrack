@@ -32,11 +32,9 @@ export async function GET() {
     where,
   });
 
-  return NextResponse.json(
-    result.map((item) => ({
-      status: item.status,
-
-      count: item._count.status,
-    })),
-  );
+  // console.log(result);
+  return NextResponse.json(result.map((item) => ({
+    status: item.status,
+    count: item._count.status,
+  })));
 }

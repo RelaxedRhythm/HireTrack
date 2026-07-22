@@ -12,8 +12,6 @@ export async function GET() {
       where.createdById=session.user.id;
       }
 
-      console.log("WHERE:", where);
-
   const jobs = await prisma.job.findMany({
     where,
     orderBy: {

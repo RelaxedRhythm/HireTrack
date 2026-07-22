@@ -57,7 +57,7 @@ export default function ApplicationFeed({
   async function moveStage(id: string, currentStatus: string, direction: "prev" | "next") {
     const statuses = Object.values(ApplicationStatus);
     const currentIndex = statuses.indexOf(currentStatus as ApplicationStatus);
-    let nextIndex = direction === "next" ? currentIndex + 1 : currentIndex - 1;
+    const nextIndex = direction === "next" ? currentIndex + 1 : currentIndex - 1;
 
     if (nextIndex >= 0 && nextIndex < statuses.length) {
       const nextStatus = statuses[nextIndex];
@@ -81,7 +81,7 @@ export default function ApplicationFeed({
 
   return (
     <>
-      <div className="flex gap-4 overflow-x-auto pb-6 snap-x min-h-[500px]">
+      <div className="grid auto-cols-[280px] grid-flow-col gap-5 overflow-x-auto pb-4">
         {STAGES.map((stage) => {
           const appsInStage = groupedApplications[stage.key] || [];
 

@@ -39,6 +39,7 @@ export async function GET() {
     stages.map(async (stage) => {
       const count = await prisma.application.count({
         where: {
+          ...where,
           status: stage as ApplicationStatus,
         },
       });
@@ -49,6 +50,7 @@ export async function GET() {
       };
     }),
   );
+  console.log(data);
 
   return NextResponse.json(data);
 }
