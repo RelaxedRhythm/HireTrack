@@ -34,7 +34,7 @@ import {
 import {
   JobStatus,
   JobType,
-} from "@prisma/client";
+} from "@/lib/constants/jobs";
 
 interface JobFormProps {
   defaultValues?: Partial<JobInput>;
@@ -273,7 +273,7 @@ export default function JobForm({
               <FormControl>
                 <Textarea
                   placeholder="Enter job description..."
-                  className="min-h-[140px]"
+                  className="min-h-35"
                   {...field}
                   value={field.value ?? ""}
                 />

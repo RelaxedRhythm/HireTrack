@@ -3,7 +3,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/auth";
 import  prisma  from "@/lib/prisma";
-import { ApplicationStatus, Role } from "@prisma/client";
+import { ApplicationStatus, Role } from "@/lib/constants/application";
 
 export async function GET(req: NextRequest) {
   try {
@@ -57,7 +57,7 @@ export async function GET(req: NextRequest) {
 
     const [applications, total] = await Promise.all([
       prisma.application.findMany({
-        where,
+        where:{...where},
         skip,
         take: limit,
         orderBy: {

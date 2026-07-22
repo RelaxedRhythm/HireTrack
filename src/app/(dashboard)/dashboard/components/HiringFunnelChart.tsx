@@ -31,20 +31,31 @@ const FUNNEL_COLORS = [
   "var(--color-slate-400, #94a3b8)",
 ];
 
-const CustomTooltip = ({ active, payload }: any) => {
-  if (active && payload && payload.length) {
-    return (
-      <div className="rounded-lg border border-border/40 bg-background/95 px-3 py-1.5 shadow-sm text-xs font-medium">
-        <p className="text-muted-foreground">{payload[0].payload.stage}</p>
-        <p className="text-foreground mt-0.5 font-bold">
-          {payload[0].value} Candidates
-        </p>
-      </div>
-    );
-  }
-  return null;
-};
+interface FunnelTooltipPayload {
+  value: number;
+  payload: {
+    stage: string;
+    count: number;
+  };
+}
 
+interface FunnelTooltipProps {
+  active?: boolean;
+  payload?: FunnelTooltipPayload[];
+}
+
+const CustomTooltip = ({ active, payload }: FunnelTooltipProps) => {
+  if (!active || !payload?.length) return null;
+
+  return (
+    <div className="rounded-lg border border-border/40 bg-background/95 px-3 py-1.5 shadow-sm text-xs font-medium">
+      <p className="text-muted-foreground">{payload[0].payload.stage}</p>
+      <p className="text-foreground mt-0.5 font-bold">
+        {payload[0].value} Candidates
+      </p>
+    </div>
+  );
+};
 export function HiringFunnelChart() {
   const [data, setData] = useState<FunnelData[]>([]);
   const [loading, setLoading] = useState(true);
@@ -81,7 +92,7 @@ export function HiringFunnelChart() {
         </CardDescription>
       </CardHeader>
 
-      <CardContent className="h-[300px]">
+      <CardContent className="h-75">
         {loading ? (
           <div className="flex h-full items-center justify-center text-xs text-muted-foreground">
             Loading...

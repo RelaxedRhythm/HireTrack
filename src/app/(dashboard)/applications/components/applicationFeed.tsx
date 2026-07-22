@@ -13,12 +13,11 @@ import {
   Trash2,
 } from "lucide-react";
 
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 
 import type { Application } from "@/types/applications";
-import { ApplicationStatus } from "@prisma/client";
+import { ApplicationStatus } from "@/lib/constants/application";
 
 import EditApplicationDialog from "./editApplicationForm";
 import DeleteApplicationDialog from "./deleteApplicationDialog";
@@ -81,14 +80,14 @@ export default function ApplicationFeed({
 
   return (
     <>
-      <div className="grid auto-cols-[280px] grid-flow-col gap-5 overflow-x-auto pb-4">
+      <div className="grid auto-cols-70 grid-flow-col gap-5 overflow-x-auto pb-4">
         {STAGES.map((stage) => {
           const appsInStage = groupedApplications[stage.key] || [];
 
           return (
             <div
               key={stage.key}
-              className={`flex-1 min-w-[280px] max-w-[340px] rounded-xl border p-4 flex flex-col snap-start ${stage.color}`}
+              className={`flex-1 min-w-70 max-w-85 rounded-xl border p-4 flex flex-col snap-start ${stage.color}`}
             >
               {/* Stage Header */}
               <div className="flex items-center justify-between pb-3.5 border-b border-border/30 mb-4 shrink-0">

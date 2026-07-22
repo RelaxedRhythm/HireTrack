@@ -24,16 +24,39 @@ interface ChartData {
   month: string;
   applications: number;
 }
+interface ApiChartData {
+  date: string;
+  count: number;
+}
 
-const CustomTooltip = ({ active, payload }: any) => {
+interface CustomTooltipProps {
+  active?: boolean;
+  payload?: {
+    payload: ChartData;
+    value: number;
+  }[];
+}
+
+const CustomTooltip = ({
+  active,
+  payload,
+}: CustomTooltipProps) => {
   if (active && payload && payload.length) {
+    const item = payload[0];
+
     return (
       <div className="rounded-lg border border-border/40 bg-background/95 px-3 py-1.5 shadow-sm text-xs font-medium">
-        <p className="text-muted-foreground">{payload[0].payload.month}</p>
-        <p className="text-foreground mt-0.5 font-bold">{payload[0].value} Applications</p>
+        <p className="text-muted-foreground">
+          {item.payload.month}
+        </p>
+
+        <p className="text-foreground mt-0.5 font-bold">
+          {item.value} Applications
+        </p>
       </div>
     );
   }
+
   return null;
 };
 
@@ -45,9 +68,9 @@ export function ApplicationOverTimeChart() {
     async function fetchChartData() {
       try {
         const res = await fetch("/api/dashboard/application-over-time");
-        const result = await res.json();
+        const result:ApiChartData[] = await res.json();
         setData(
-          result.map((item: any) => ({
+          result.map((item) => ({
             month: new Date(item.date).toLocaleString("default", {
               month: "short",
             }),
@@ -71,7 +94,7 @@ export function ApplicationOverTimeChart() {
         <CardDescription className="text-xs">Monthly application trend</CardDescription>
       </CardHeader>
 
-      <CardContent className="h-[300px]">
+      <CardContent className="h-75">
         {loading ? (
           <ChartSkeleton/>
         ) : (

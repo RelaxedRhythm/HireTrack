@@ -1,11 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
-
-// import {
-//   JobStatus,
-//   JobType,
-// } from "@prisma/client";
+import { useEffect, useState,useCallback } from "react";
 
 interface JobListProps {
   refresh: number;
@@ -16,7 +11,7 @@ interface JobListProps {
 
 import type {Job} from "../../../../types/job"
 
-export default function JobList({refresh,search,
+export default function JobList({search,
   status,
   type,}:JobListProps) {
 
@@ -24,7 +19,7 @@ export default function JobList({refresh,search,
   const [loading, setLoading] = useState(true);
 
 
-  async function fetchJobs() {
+  const fetchJobs=useCallback(async () =>{
 
     try {
     setLoading(true);
@@ -60,12 +55,16 @@ export default function JobList({refresh,search,
       setLoading(false);
 
     }
-  }
+  },[search,status,type]);
 
 
   useEffect(() => {
-    fetchJobs();
-  }, [refresh,search,status,type]);
+     const load = async () => {
+        await fetchJobs();
+    };
+
+    load();
+  }, [fetchJobs]);
 
 
 

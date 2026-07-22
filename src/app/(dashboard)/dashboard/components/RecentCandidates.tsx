@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { User } from "lucide-react";
 
 import {
   Card,

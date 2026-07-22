@@ -29,7 +29,7 @@ export async function GET() {
       status: true,
     },
 
-    where,
+    where:{...where},
   });
 
   return NextResponse.json(result.map((item) => ({

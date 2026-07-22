@@ -8,18 +8,7 @@ import SearchBar from "../../components/shared/searchBar";
 import Filters from "./components/filters";
 import Pagination from "../../components/shared/pagination";
 import type { Job } from "../../../types/job";
-import { JobStatus, JobType } from "@prisma/client";
-import LoadingState from "@/app/components/shared/loadingState";
-
-// interface Job {
-//   id: string;
-//   title: string;
-//   company: string;
-//   location: string;
-//   type: JobType;
-//   status: JobStatus;
-//   description?: string | null;
-// }
+import { JobStatus, JobType } from "@/lib/constants/jobs";
 
 export default function JobsPage() {
   const [jobs, setJobs] = useState<Job[]>([]);
@@ -34,7 +23,6 @@ export default function JobsPage() {
   const [totalPages, setTotalPages] = useState(1);
 
   const [loading, setLoading] = useState(false);
-  const [refresh, setRefresh] = useState(0);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -91,7 +79,11 @@ export default function JobsPage() {
     }
   }, [page, debouncedSearch, status, type]);
   useEffect(() => {
-    fetchJobs();
+     const load = async () => {
+        await fetchJobs();
+    };
+
+    load();
   }, [fetchJobs]);
 
  function handleFilterChange<T>(callback: (value: T) => void) {
@@ -128,7 +120,7 @@ export default function JobsPage() {
         <Filters
           status={status}
           type={type}
-          onStatusChange={setStatus}
+          onStatusChange={handleFilterChange(setStatus)}
           onTypeChange={handleFilterChange(setType)}
         />
       </div>

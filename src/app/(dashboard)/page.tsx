@@ -3,7 +3,6 @@ import {
   BriefcaseBusiness,
   Users,
   FileText,
-  Plus,
   ArrowRight,
 } from "lucide-react";
 

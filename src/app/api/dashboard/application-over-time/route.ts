@@ -23,7 +23,7 @@ export async function GET() {
   }
 
   const applications = await prisma.application.findMany({
-    where,
+    where:{...where},
 
     select: {
       createdAt: true,

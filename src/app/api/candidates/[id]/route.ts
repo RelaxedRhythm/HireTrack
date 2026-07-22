@@ -42,6 +42,7 @@ export async function GET(req: NextRequest, { params }: RouteParams) {
 
     const candidate = await prisma.candidate.findFirst({
       where: {
+        ...where,
         id,
       },
 
@@ -112,6 +113,7 @@ export async function PATCH(req: NextRequest, { params }: RouteParams) {
 
     const existingCandidate = await prisma.candidate.findFirst({
       where: {
+        ...where,
         id,
       },
     });
@@ -205,6 +207,7 @@ export async function DELETE(req: NextRequest, { params }: RouteParams) {
 
     const existingCandidate = await prisma.candidate.findFirst({
       where: {
+        ...where,
         id,
       },
     });

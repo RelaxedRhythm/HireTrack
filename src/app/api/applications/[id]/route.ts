@@ -30,6 +30,7 @@ export async function GET(req: NextRequest, { params }: RouteParams) {
 
     const application = await prisma.application.findFirst({
       where: {
+        ...where,
         id,
       },
 

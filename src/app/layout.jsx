@@ -3,7 +3,6 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "./components/themeProvider";
 import Navbar from "./components/navbar";
-import { Sidebar } from "./components/sidebar";
 import QueryProvider from "@/providers/query-provider";
 
 // const inter = Inter({

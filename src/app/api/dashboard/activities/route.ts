@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/auth";
+import { Prisma } from "@prisma/client";
+
 import prisma from "@/lib/prisma";
 
 
@@ -15,12 +17,17 @@ export async function GET(req: NextRequest) {
         { status: 401 }
       );
     }
+    const where: Prisma.ActivityWhereInput = {};
+    
+      if (session?.user.role === "RECRUITER") {
+        where.createdById= session.user.id
+      };
 
 
     const activities = await prisma.activity.findMany({
 
       where: {
-        createdById: session.user.id
+        ...where,
       },
 
       orderBy: {

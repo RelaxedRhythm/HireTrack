@@ -1,37 +1,17 @@
-export const JOB_TYPES = [
-  {
-    label: "Full Time",
-    value: "FULL_TIME",
-  },
-  {
-    label: "Part Time",
-    value: "PART_TIME",
-  },
-  {
-    label: "Internship",
-    value: "INTERNSHIP",
-  },
-  {
-    label: "Contract",
-    value: "CONTRACT",
-  },
-  {
-    label: "Remote",
-    value: "REMOTE",
-  },
-];
+export const JobStatus = {
+  OPEN: "OPEN",
+  CLOSED: "CLOSED",
+  DRAFT: "DRAFT",
+} as const;
 
-export const JOB_STATUS = [
-  {
-    label: "Open",
-    value: "OPEN",
-  },
-  {
-    label: "Closed",
-    value: "CLOSED",
-  },
-  {
-    label: "Draft",
-    value: "DRAFT",
-  },
-];
+export type JobStatus = (typeof JobStatus)[keyof typeof JobStatus];
+
+export const JobType = {
+  FULL_TIME: "FULL_TIME",
+  PART_TIME: "PART_TIME",
+  INTERNSHIP: "INTERNSHIP",
+  CONTRACT: "CONTRACT",
+  REMOTE: "REMOTE",
+} as const;
+
+export type JobType = (typeof JobType)[keyof typeof JobType];

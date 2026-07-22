@@ -72,7 +72,7 @@ export async function GET(req: NextRequest) {
 
     const [candidates, total] = await Promise.all([
       prisma.candidate.findMany({
-        where,
+        where:{...where},
 
         include: {
           _count: {

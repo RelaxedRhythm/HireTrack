@@ -118,15 +118,16 @@ export default function JobsTable({
               </div>
 
               <div className="flex items-center gap-1.5">
-                <Button size="xs" variant="outline" asChild>
-                  <Link
+                 <Link
                     href={`/jobs/${job.id}`}
                     className="inline-flex items-center gap-1"
                   >
+                <Button size="xs" variant="outline">
+                 
                     <Eye className="h-3 w-3" />
                     <span>View</span>
-                  </Link>
                 </Button>
+                  </Link>
 
                 <EditJobDialog job={job} onSuccess={onRefresh} />
 

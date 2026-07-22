@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 
-import { ApplicationStatus } from "@prisma/client";
+import { ApplicationStatus } from "@/lib/constants/application";
 
 import {
   Select,
@@ -29,7 +29,6 @@ export default function Filters({
   status,
   setStatus,
   jobId,
-  setJobId,
 }: FiltersProps) {
   const [jobs, setJobs] = useState<Job[]>([]);
 
@@ -57,7 +56,7 @@ export default function Filters({
         value={status}
         onValueChange={(value) => setStatus(value ?? "")}
       >
-        <SelectTrigger className="w-[200px]">
+        <SelectTrigger className="w-50">
           <SelectValue placeholder="Application Status" />
         </SelectTrigger>
 
@@ -79,7 +78,7 @@ export default function Filters({
         value={jobId}
         onValueChange={(value) => setStatus(value ?? "")}
       >
-        <SelectTrigger className="w-[250px]">
+        <SelectTrigger className="w-62.5">
           <SelectValue placeholder="All Jobs" />
         </SelectTrigger>
 

@@ -7,7 +7,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { JobStatus, JobType } from "@prisma/client";
+import { JobStatus, JobType } from "@/lib/constants/jobs";
 
 
 interface FiltersProps {
@@ -35,12 +35,12 @@ export default function Filters({
         onValueChange={(value) => onStatusChange((value ?? "all") as JobStatus | "all")}
       >
 
-        <SelectTrigger className="w-[180px]">
+        <SelectTrigger className="w-45">
           <SelectValue placeholder="Filter by status" />
         </SelectTrigger>
 
 
-        <SelectContent className="bg-background/100 backdrop-blur-none border shadow-xl z-50">
+        <SelectContent className="bg-background backdrop-blur-none border shadow-xl z-50">
 
           <SelectItem value="all">
             All Status
@@ -70,7 +70,7 @@ export default function Filters({
         onValueChange={(value) => onTypeChange((value ?? "all") as JobType | "all")}
       >
 
-        <SelectTrigger className="w-[180px]">
+        <SelectTrigger className="w-45">
           <SelectValue placeholder="Filter by type" />
         </SelectTrigger>
 
