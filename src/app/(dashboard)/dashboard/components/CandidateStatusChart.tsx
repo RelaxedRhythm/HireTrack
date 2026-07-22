@@ -56,7 +56,6 @@ export function CandidateStatusChart() {
         const res = await fetch("/api/dashboard/candidate-status");
         const result = await res.json();
         setData(result);
-        // console.log(data);
       } catch (error) {
         console.error(error);
       } finally {

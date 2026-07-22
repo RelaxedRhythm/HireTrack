@@ -157,14 +157,6 @@ export async function GET(req: NextRequest) {
       }),
     ]);
 
-    // const jobs = await prisma.job.findMany({
-    //   where,
-    //   include: {
-    //     applications: true,
-    //   },
-    // });
-
-    console.log("after queries");
     return NextResponse.json({
       jobs,
 

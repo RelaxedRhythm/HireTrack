@@ -44,7 +44,6 @@ export default function CreateJobDialog({
       if (!response.ok) {
         throw new Error("Failed to create job");
       }
-      console.log(response);
       onCreated?.();
 
       setOpen(false);

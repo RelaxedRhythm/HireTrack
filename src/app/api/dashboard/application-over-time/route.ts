@@ -14,15 +14,13 @@ export async function GET() {
       },
     );
 
-    const where: Prisma.ApplicationWhereInput = {};
-      
-          if(session?.user.role==="RECRUITER"){
-          where.job={
-            createdById:session.user.id,
-          }
-        }
-    
-          console.log("WHERE:", where);
+  const where: Prisma.ApplicationWhereInput = {};
+
+  if (session?.user.role === "RECRUITER") {
+    where.job = {
+      createdById: session.user.id,
+    };
+  }
 
   const applications = await prisma.application.findMany({
     where,

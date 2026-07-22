@@ -56,7 +56,7 @@ import { signIn, signOut } from "../auth";
 //       redirectTo: "/dashboard",
 //     });
 //   } catch (error){
-//     console.log(error);
+//     (error);
 //     return {
 //       error: "Invalid email or password",
 //     };

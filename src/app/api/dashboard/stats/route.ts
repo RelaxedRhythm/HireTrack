@@ -3,7 +3,7 @@ import { auth } from "@/auth";
 import prisma from "@/lib/prisma";
 import { Prisma } from "@prisma/client";
 
-export async function getStats() {
+async function getStats() {
   try {
     const session = await auth();
 
@@ -94,4 +94,7 @@ export async function getStats() {
       },
     );
   }
+}
+export async function GET() {
+  return getStats();
 }

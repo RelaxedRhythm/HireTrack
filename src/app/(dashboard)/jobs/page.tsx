@@ -100,7 +100,6 @@ export default function JobsPage() {
     callback(value);
   };
 }
-  console.log({ loading });
 
   return (
     <div className="space-y-6">

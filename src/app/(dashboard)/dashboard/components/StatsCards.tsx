@@ -1,11 +1,6 @@
 import { auth } from "@/auth";
-import { getStats } from "@/app/api/dashboard/stats/route";
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { cookies } from "next/headers";
+import { Card, CardContent, CardHeader} from "@/components/ui/card";
 
 import {
   Briefcase,
@@ -14,18 +9,26 @@ import {
   Calendar,
   BadgeCheck,
 } from "lucide-react";
-import { useState } from "react";
-// import { JobStatus } from "@prisma/client";
 
 export async function StatsCards() {
   const session = await auth();
-  // const [loading,setLoading] =useState(true);
+  const cookieStore = await cookies();
 
   if (!session?.user?.id) {
     return null;
   }
 
-  const res = await getStats();
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_APP_URL}/api/dashboard/stats`,{
+
+      headers: {
+        Cookie: cookieStore.toString(),
+      },
+      
+        cache: "no-store",
+      
+    }
+  );
   const data = await res.json();
   const stats = [
     {
@@ -41,7 +44,7 @@ export async function StatsCards() {
     {
       title: "Candidates",
       value: data.candidates,
-      icon: Users,  
+      icon: Users,
     },
     {
       title: "Interviews",
@@ -61,8 +64,8 @@ export async function StatsCards() {
         const Icon = stat.icon;
 
         return (
-          <Card 
-            key={stat.title} 
+          <Card
+            key={stat.title}
             className="transition-all duration-300 hover:border-border/80 hover:shadow-xs border-border/40 bg-background/60"
           >
             <CardHeader className="flex flex-row items-center justify-between pb-1 pt-4 px-4.5">

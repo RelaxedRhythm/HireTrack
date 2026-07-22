@@ -20,10 +20,6 @@ export async function GET(req: NextRequest, { params }: RouteParams) {
     }
 
     const { id } = await params;
-    console.log({
-      id,
-      sessionUser: session.user.id,
-    });
 
     const where: Prisma.JobWhereInput = {};
 
@@ -43,8 +39,6 @@ export async function GET(req: NextRequest, { params }: RouteParams) {
         },
       },
     });
-
-    console.log(job);
 
     if (!job) {
       return NextResponse.json({ message: "Job not found" }, { status: 404 });
