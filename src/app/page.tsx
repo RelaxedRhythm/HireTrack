@@ -29,7 +29,7 @@ export default async function HomePage() {
     return (
       <main className="mx-auto flex min-h-[70vh] max-w-3xl items-center px-6">
         <section className="w-full rounded-3xl border bg-card p-8 shadow-sm md:p-12">
-          <p className="text-sm font-medium text-primary">HireTrack</p>
+          <p className="text-5xl font-medium text-primary">HireTrack</p>
           <h1 className="mt-3 text-4xl font-bold tracking-tight">
             Welcome back{name ? `, ${name}` : ""}.
           </h1>
@@ -51,10 +51,10 @@ export default async function HomePage() {
   return (
     <main className="relative overflow-hidden">
       <section className="mx-auto flex min-h-[72vh] max-w-5xl flex-col items-center justify-center px-6 text-center">
-        <p className="text-sm font-semibold text-primary">HireTrack</p>
-        <h1 className="mt-4 max-w-4xl text-5xl font-bold tracking-tight md:text-7xl">
+        <p className="text-5xl font-semibold text-primary">HireTrack</p>
+        <h3 className="mt-4 max-w-4xl text-5xl font-bold tracking-tight md:text-7xl">
           Hire smarter, from opening to offer.
-        </h1>
+        </h3>
         <p className="mt-6 max-w-2xl text-lg text-muted-foreground">
           A simple workspace for managing jobs, candidates, applications, and
           hiring progress.
