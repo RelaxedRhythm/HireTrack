@@ -4,10 +4,10 @@ import { useEffect, useState, useCallback } from "react";
 
 import CreateJobDialog from "./components/createJobDialog";
 import JobsTable from "./components/jobsTable";
-import SearchBar from "../../app/components/shared/searchBar";
+import SearchBar from "../../components/shared/searchBar";
 import Filters from "./components/filters";
-import Pagination from "../../app/components/shared/pagination";
-import type { Job } from "../../types/job";
+import Pagination from "../../components/shared/pagination";
+import type { Job } from "../../../types/job";
 import { JobStatus, JobType } from "@/lib/constants/jobs";
 
 export default function JobsPage() {
