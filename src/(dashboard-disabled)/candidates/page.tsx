@@ -2,9 +2,9 @@
 
 import { useState } from "react";
 
-import SearchBar from "../../components/shared/searchBar";
+import SearchBar from "../../app/components/shared/searchBar";
 import CandidateList from "./components/candidateList";
-import Pagination from "../../components/shared/pagination";
+import Pagination from "../../app/components/shared/pagination";
 
 export default function CandidatesPage() {
   const [refresh, setRefresh] = useState(0);

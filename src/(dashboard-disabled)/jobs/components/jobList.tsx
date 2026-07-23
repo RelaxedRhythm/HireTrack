@@ -9,7 +9,7 @@ interface JobListProps {
   type: string;
 }
 
-import type {Job} from "../../../../types/job"
+import type {Job} from "../../../types/job"
 
 export default function JobList({search,
   status,
