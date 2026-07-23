@@ -61,7 +61,7 @@ export function SignupForm() {
 </div>
       <button
         disabled={loading}
-        className="h-11 w-full rounded-lg bg-primary font-medium text-primary-foreground transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50"
+        className="h-11 w-full rounded-lg bg-primary font-medium text-primary-foreground transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50 cursor-pointer"
         >
         {loading ? "Creating..." : "Sign Up"}
       </button>
